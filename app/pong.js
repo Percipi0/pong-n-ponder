@@ -8,11 +8,12 @@ import {
   PanResponder,
   Animated,
 } from "react-native";
-import Constants from "./Constants";
+import Constants from "../utils/Constants";
 import { GameEngine } from "react-native-game-engine";
 import Matter from "matter-js";
-import Physics from "./Physics";
-import Renderer from "./Renderer";
+import Physics from "../utils/Physics";
+import Renderer from "../utils/Renderer";
+import { Stack } from "expo-router/stack";
 
 export default class Pong extends Component {
   // Sets up physics engine, mouse tracker, and renderable objects
@@ -311,6 +312,7 @@ export default class Pong extends Component {
     const startText = "Press to start";
     return (
       <View style={styles.container} {...this.panResponder.panHandlers}>
+        <Stack.Screen options={{ header: () => null }} />
         <GameEngine
           entities={this.entities}
           ref={(ref) => {

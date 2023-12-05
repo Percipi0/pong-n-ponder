@@ -65,7 +65,7 @@ export default function Layout() {
           }}
         />
         <Tabs.Screen
-          name="itemshop"
+          name="pong"
           options={{
             title: "Boutique",
             headerTitle: "Boutique",
