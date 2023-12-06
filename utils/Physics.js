@@ -2,20 +2,31 @@ import Matter from "matter-js";
 import Constants from "./Constants";
 
 const Physics =
-  (leftPaddlePosition) =>
+  (physicsProps) =>
   (entities, { touches, time }) => {
     let engine = entities.physics.engine;
     let leftPaddle = entities.leftPaddle.body;
     let rightPaddle = entities.rightPaddle.body;
-    let ball = entities.ball;
+    let curUser = physicsProps.curUser;
+    let player1 = physicsProps.player1;
+    let player2 = physicsProps.player2;
 
     touches
       .filter((t) => t.type === "move")
       .forEach((t) => {
-        Matter.Body.setPosition(leftPaddle, {
-          x: Constants.LEFT_PADDLE_X,
-          y: leftPaddlePosition.y._value,
-        });
+        if (curUser === player1) {
+          console.log("P1 Physics");
+          Matter.Body.setPosition(leftPaddle, {
+            x: Constants.LEFT_PADDLE_X,
+            y: physicsProps.leftPaddlePosition.y._value,
+          });
+        } else if (curUser === player2) {
+          console.log("P2 Physics");
+          Matter.Body.setPosition(rightPaddle, {
+            x: Constants.RIGHT_PADDLE_X,
+            y: physicsProps.rightPaddlePosition.y._value,
+          });
+        }
       });
 
     Matter.Engine.update(engine, time.delta);

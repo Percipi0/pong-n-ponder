@@ -35,16 +35,33 @@ class Pong extends Component {
       x: Constants.LEFT_PADDLE_X,
       y: Constants.PADDLE_Y_START,
     });
+    this.rightPaddlePosition = new Animated.ValueXY({
+      x: Constants.RIGHT_PADDLE_X,
+      y: Constants.PADDLE_Y_START,
+    });
+    this.physicsProps = {
+      curUser: this.curUser,
+      player1: this.player1,
+      player2: this.player2,
+      leftPaddlePosition: this.leftPaddlePosition,
+      rightPaddlePosition: this.rightPaddlePosition,
+    };
     // Touch detection
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
       onPanResponderMove: (event, gesture) => {
-        Animated.spring(this.leftPaddlePosition, {
-          toValue: { x: Constants.LEFT_PADDLE_X, y: gesture.moveY },
-          useNativeDriver: false,
-        }).start();
-        //console.log(this.entities.leftPaddle.body.position.y);
+        if (this.curUser === this.player1) {
+          Animated.spring(this.leftPaddlePosition, {
+            toValue: { x: Constants.LEFT_PADDLE_X, y: gesture.moveY },
+            useNativeDriver: false,
+          }).start();
+        } else if (this.curUser === this.player2) {
+          Animated.spring(this.rightPaddlePosition, {
+            toValue: { x: Constants.RIGHT_PADDLE_X, y: gesture.moveY },
+            useNativeDriver: false,
+          }).start();
+        }
         console.log(
           this.entities.leftPaddle.body.position.x +
             ", " +
@@ -94,7 +111,7 @@ class Pong extends Component {
       Constants.RIGHT_PADDLE_X,
       Constants.PADDLE_Y_START,
       Constants.PADDLE_WIDTH,
-      Constants.PADDLE_HEIGHT * 10,
+      Constants.PADDLE_HEIGHT,
       { label: "rightPaddle", isStatic: true }
     );
     let leftGoal = Matter.Bodies.rectangle(
@@ -130,6 +147,7 @@ class Pong extends Component {
     ]);
 
     Matter.Events.on(engine, "afterUpdate", (event) => {
+      /*
       console.log(
         "Ball Position: (" +
           this.entities.ball.body.position.x +
@@ -137,6 +155,7 @@ class Pong extends Component {
           this.entities.ball.body.position.y +
           ")"
       );
+      */
     });
 
     /**
@@ -214,7 +233,7 @@ class Pong extends Component {
       },
       rightPaddle: {
         body: rightPaddle,
-        dimensions: [Constants.PADDLE_WIDTH, Constants.PADDLE_HEIGHT * 10],
+        dimensions: [Constants.PADDLE_WIDTH, Constants.PADDLE_HEIGHT],
         color: "purple",
         renderer: Renderer,
       },
@@ -345,7 +364,7 @@ class Pong extends Component {
           }}
           running={this.state.running}
           style={styles.game}
-          systems={[Physics(this.leftPaddlePosition)]}
+          systems={[Physics(this.physicsProps)]}
         >
           <StatusBar hidden={true} />
         </GameEngine>
