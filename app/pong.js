@@ -86,7 +86,9 @@ class Pong extends Component {
       },
     });
     this.state = {
-      running: false,
+      running: true, // TODO: Should be false once multiplayer communication is finished
+      p1ready: false,
+      p2ready: false,
       p1score: 0,
       p2score: 0,
       ballSpeed: Constants.NORMAL_BALL_SPEED,
@@ -355,7 +357,12 @@ class Pong extends Component {
   };
 
   start = () => {
-    if (this.player2) {
+    if (this.curUser === this.player1) {
+      this.setState({ p1ready: true });
+    } else if (this.curUser === this.player2) {
+      this.setState({ p2ready: true });
+    }
+    if (this.state.p1ready && this.state.p2ready) {
       this.setState({
         running: true,
       });
@@ -370,8 +377,15 @@ class Pong extends Component {
   };
 
   render() {
-    const startText =
-      this.player2 === "" ? "Waiting for opponent..." : "Press to start";
+    let startText;
+    if (!this.player2) startText = "No opponent available...";
+    else if (this.curUser === this.player1) {
+      if (this.state.p1ready) startText = "Waiting for opponent...";
+      else startText = "Press to start";
+    } else if (this.curUser === this.player2) {
+      if (this.state.p2ready) startText = "Waiting for opponent...";
+      else startText = "Press to start";
+    }
     return (
       <View style={styles.container} {...this.panResponder.panHandlers}>
         <GameEngine
