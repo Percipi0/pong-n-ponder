@@ -36,6 +36,7 @@ let height = Dimensions.get("window").height;
 let URL = "http://10.31.11.154:1930";
 
 export const socket = io(URL);
+
 const keyboardVerticalOffset = Platform.OS === "ios" ? 50 : -height / 3.78;
 const keyboardVerticalOffset2 = Platform.OS === "ios" ? 50 : -height / 2;
 
