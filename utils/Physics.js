@@ -7,6 +7,7 @@ const Physics =
     let engine = entities.physics.engine;
     let leftPaddle = entities.leftPaddle.body;
     let rightPaddle = entities.rightPaddle.body;
+    let ball = entities.ball;
 
     touches
       .filter((t) => t.type === "move")

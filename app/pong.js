@@ -45,8 +45,9 @@ class Pong extends Component {
           useNativeDriver: false,
         }).start();
         console.log(
-          this.entities.leftPaddle.position + " "
-          //Matter.Body.leftPaddle.position
+          this.entities.leftPaddle.body.position.x +
+            ", " +
+            this.entities.leftPaddle.body.position.y
         );
       },
     });
@@ -126,6 +127,16 @@ class Pong extends Component {
       rightGoal,
       ball,
     ]);
+
+    Matter.Events.on(engine, "afterUpdate", (event) => {
+      console.log(
+        "Ball Position: (" +
+          this.entities.ball.body.position.x +
+          ", " +
+          this.entities.ball.body.position.y +
+          ")"
+      );
+    });
 
     /**
      * When two objects collide,
