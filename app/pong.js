@@ -85,9 +85,9 @@ class Pong extends Component {
       },
     });
     this.state = {
-      running: true, // TODO: Should be false once multiplayer communication is finished
-      p1ready: false,
-      p2ready: false,
+      running: false,
+      p1ready: true, // TODO: Should be false once multiplayer communication is finished
+      p2ready: true, // TODO: Should be false once multiplayer communication is finished
       p1score: 0,
       p2score: 0,
       ballSpeed: Constants.NORMAL_BALL_SPEED,
