@@ -45,6 +45,11 @@ class Pong extends Component {
           useNativeDriver: false,
         }).start();
         //console.log(this.entities.leftPaddle.body.position.y);
+        console.log(
+          this.entities.leftPaddle.body.position.x +
+            ", " +
+            this.entities.leftPaddle.body.position.y
+        );
       },
     });
     this.state = {
@@ -123,6 +128,16 @@ class Pong extends Component {
       rightGoal,
       ball,
     ]);
+
+    Matter.Events.on(engine, "afterUpdate", (event) => {
+      console.log(
+        "Ball Position: (" +
+          this.entities.ball.body.position.x +
+          ", " +
+          this.entities.ball.body.position.y +
+          ")"
+      );
+    });
 
     /**
      * When two objects collide,
