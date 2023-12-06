@@ -9,6 +9,7 @@ const divisor = 15;
 export default Constants = {
   MAX_WIDTH: screenWidth,
   MAX_HEIGHT: screenHeight,
+  WALL_HEIGHT: screenHeight / 5,
   MARGIN: 0,
 
   LEFT_PADDLE_X: screenWidth / divisor,
