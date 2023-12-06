@@ -13,6 +13,8 @@ import { GameEngine } from "react-native-game-engine";
 import Matter from "matter-js";
 import Physics from "../utils/Physics";
 import Renderer from "../utils/Renderer";
+
+import { colors } from "../assets/Themes/colors.js";
 import { Stack } from "expo-router/stack";
 import { useLocalSearchParams } from "expo-router";
 import { useState, useEffect } from "react";
@@ -39,11 +41,39 @@ class Pong extends Component {
       x: Constants.LEFT_PADDLE_X,
       y: Constants.PADDLE_Y_START,
     });
+    this.rightPaddlePosition = new Animated.ValueXY({
+      x: Constants.RIGHT_PADDLE_X,
+      y: Constants.PADDLE_Y_START,
+    });
+    this.physicsProps = {
+      curUser: this.curUser,
+      player1: this.player1,
+      player2: this.player2,
+      leftPaddlePosition: this.leftPaddlePosition,
+      rightPaddlePosition: this.rightPaddlePosition,
+    };
     // Touch detection
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
       onPanResponderMove: (event, gesture) => {
+        let fingerY = gesture.moveY;
+        const minY = Constants.WALL_HEIGHT - Constants.PADDLE_HEIGHT / 2;
+        const maxY = Constants.MAX_HEIGHT - Constants.WALL_HEIGHT;
+        if (fingerY < minY) fingerY = minY;
+        else if (fingerY > maxY) fingerY = maxY;
+        if (this.curUser === this.player1) {
+          Animated.spring(this.leftPaddlePosition, {
+            toValue: { x: Constants.LEFT_PADDLE_X, y: fingerY },
+            useNativeDriver: false,
+          }).start();
+        } else if (this.curUser === this.player2) {
+          Animated.spring(this.rightPaddlePosition, {
+            toValue: { x: Constants.RIGHT_PADDLE_X, y: fingerY },
+            useNativeDriver: false,
+          }).start();
+        }
+        console.log(
         Animated.spring(this.leftPaddlePosition, {
           toValue: { x: Constants.LEFT_PADDLE_X, y: gesture.moveY },
           useNativeDriver: false,
@@ -77,7 +107,7 @@ class Pong extends Component {
       Constants.MAX_WIDTH / 2,
       Constants.MAX_HEIGHT - 25,
       Constants.MAX_WIDTH,
-      50,
+      Constants.WALL_HEIGHT,
       { isStatic: true }
     );
     let ceiling = Matter.Bodies.rectangle(
@@ -98,7 +128,7 @@ class Pong extends Component {
       Constants.RIGHT_PADDLE_X,
       Constants.PADDLE_Y_START,
       Constants.PADDLE_WIDTH,
-      Constants.PADDLE_HEIGHT * 10,
+      Constants.PADDLE_HEIGHT,
       { label: "rightPaddle", isStatic: true }
     );
     let leftGoal = Matter.Bodies.rectangle(
@@ -134,14 +164,13 @@ class Pong extends Component {
     ]);
 
     Matter.Events.on(engine, "afterUpdate", (event) => {
-      /*console.log(
+      console.log(
         "Ball Position: (" +
           this.entities.ball.body.position.x +
           ", " +
           this.entities.ball.body.position.y +
           ")"
-      );*/
-      this.setBallX(this.entities.ball.body.position.x);
+      );
     });
 
     /**
@@ -201,26 +230,26 @@ class Pong extends Component {
       physics: { engine: engine, world: world },
       floor: {
         body: floor,
-        dimensions: [Constants.MAX_WIDTH, 50],
-        color: "green",
+        dimensions: [Constants.MAX_WIDTH, Constants.WALL_HEIGHT],
+        color: colors.lightAccent,
         renderer: Renderer,
       },
       ceiling: {
         body: ceiling,
         dimensions: [Constants.MAX_WIDTH, 50],
-        color: "green",
+        color: colors.lightAccent,
         renderer: Renderer,
       },
       leftPaddle: {
         body: leftPaddle,
         dimensions: [Constants.PADDLE_WIDTH, Constants.PADDLE_HEIGHT],
-        color: "purple",
+        color: colors.lightAccent,
         renderer: Renderer,
       },
       rightPaddle: {
         body: rightPaddle,
-        dimensions: [Constants.PADDLE_WIDTH, Constants.PADDLE_HEIGHT * 10],
-        color: "purple",
+        dimensions: [Constants.PADDLE_WIDTH, Constants.PADDLE_HEIGHT],
+        color: colors.lightAccent,
         renderer: Renderer,
       },
       leftGoal: {
@@ -236,7 +265,7 @@ class Pong extends Component {
       ball: {
         body: ball,
         dimensions: [Constants.BALL_LENGTH, Constants.BALL_LENGTH],
-        color: "red",
+        color: colors.darkAccent,
         renderer: Renderer,
       },
     };
@@ -326,16 +355,18 @@ class Pong extends Component {
   };
 
   start = () => {
-    this.setState({
-      running: true,
-    });
-    this.bounceBall(
-      this.entities.leftPaddle.body,
-      this.entities.ball.body,
-      1,
-      1,
-      Constants.NORMAL_BALL_SPEED / 2
-    );
+    if (this.player2) {
+      this.setState({
+        running: true,
+      });
+      this.bounceBall(
+        this.entities.leftPaddle.body,
+        this.entities.ball.body,
+        1,
+        1,
+        Constants.NORMAL_BALL_SPEED / 2
+      );
+    }
   };
 
   render() {
@@ -350,7 +381,7 @@ class Pong extends Component {
           }}
           running={this.state.running}
           style={styles.game}
-          systems={[Physics(this.leftPaddlePosition)]}
+          systems={[Physics(this.physicsProps)]}
         >
           <StatusBar hidden={true} />
         </GameEngine>
@@ -441,7 +472,7 @@ export default function playPong() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "pink",
+    backgroundColor: colors.background,
     flex: 1,
   },
   game: {
@@ -452,6 +483,7 @@ const styles = StyleSheet.create({
     top: Constants.MARGIN,
   },
   score: {
+    color: colors.text,
     fontSize: 50,
     position: "absolute",
     top: 50,
