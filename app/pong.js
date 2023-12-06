@@ -44,10 +44,7 @@ class Pong extends Component {
           toValue: { x: Constants.LEFT_PADDLE_X, y: gesture.moveY },
           useNativeDriver: false,
         }).start();
-        console.log(
-          this.entities.leftPaddle.position + " "
-          //Matter.Body.leftPaddle.position
-        );
+        //console.log(this.entities.leftPaddle.body.position.y);
       },
     });
     this.state = {
@@ -224,7 +221,6 @@ class Pong extends Component {
       },
     };
   };
-
   /**
    * Given an object,
    * the ball that hit it,
