@@ -73,7 +73,6 @@ class Pong extends Component {
             useNativeDriver: false,
           }).start();
         }
-        console.log(
         Animated.spring(this.leftPaddlePosition, {
           toValue: { x: Constants.LEFT_PADDLE_X, y: gesture.moveY },
           useNativeDriver: false,
@@ -171,6 +170,7 @@ class Pong extends Component {
           this.entities.ball.body.position.y +
           ")"
       );
+      this.setBallX(this.entities.ball.body.position.x);
     });
 
     /**
@@ -413,8 +413,9 @@ export default function playPong() {
   const [curUser, setCurUser] = useState(params.curUser);
   const [player1, setPlayer1] = useState(params.player1);
   const [player2, setPlayer2] = useState(params.player2);
+  const [ballX, setBallX] = useState(null);
 
- // const [ballX, setBallX] = useState(null);
+  // const [ballX, setBallX] = useState(null);
 
   //console.log(curUser);
   //console.log(">.<");
