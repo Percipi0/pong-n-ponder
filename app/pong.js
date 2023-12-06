@@ -469,7 +469,7 @@ export default function playPong() {
     <>
       <Stack.Screen options={{ header: () => null }} />
       <Text>{player1}</Text>
-      <Text>{ballX}</Text>
+      <Text>{player2}</Text>
       <Pong
         key={player2}
         curUser={curUser}
