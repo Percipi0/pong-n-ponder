@@ -18,6 +18,7 @@ import { useLocalSearchParams } from "expo-router";
 import { useState, useEffect } from "react";
 import io from "socket.io-client";
 import Room from "../utils/room.js";
+//import socket from "./index.js";
 
 let URL = "http://10.31.11.154:1930";
 export const socket = io(URL);
@@ -26,9 +27,12 @@ class Pong extends Component {
   // Sets up physics engine, mouse tracker, and renderable objects
   constructor(props) {
     super(props);
+    this.setBallX = props.setBallX;
     this.curUser = props.curUser;
     this.player1 = props.player1;
     this.player2 = props.player2;
+    this.roomId = props.roomId;
+    this.moveTally = 0;
     this.gameEngine = null;
     this.entities = this.setupWorld();
     this.leftPaddlePosition = new Animated.ValueXY({
@@ -45,11 +49,11 @@ class Pong extends Component {
           useNativeDriver: false,
         }).start();
         //console.log(this.entities.leftPaddle.body.position.y);
-        console.log(
+        /*console.log(
           this.entities.leftPaddle.body.position.x +
             ", " +
             this.entities.leftPaddle.body.position.y
-        );
+        );*/
       },
     });
     this.state = {
@@ -130,13 +134,14 @@ class Pong extends Component {
     ]);
 
     Matter.Events.on(engine, "afterUpdate", (event) => {
-      console.log(
+      /*console.log(
         "Ball Position: (" +
           this.entities.ball.body.position.x +
           ", " +
           this.entities.ball.body.position.y +
           ")"
-      );
+      );*/
+      this.setBallX(this.entities.ball.body.position.x);
     });
 
     /**
@@ -366,6 +371,10 @@ class Pong extends Component {
   }
 }
 
+async function sendUpdate(roomId, curUser, ballX, ballY) {
+  await Room.sendMovementAndUpdate(roomId, curUser, ballX, ballY, socket);
+}
+
 export default function playPong() {
   const params = useLocalSearchParams();
 
@@ -373,6 +382,8 @@ export default function playPong() {
   const [curUser, setCurUser] = useState(params.curUser);
   const [player1, setPlayer1] = useState(params.player1);
   const [player2, setPlayer2] = useState(params.player2);
+
+ // const [ballX, setBallX] = useState(null);
 
   //console.log(curUser);
   //console.log(">.<");
@@ -397,6 +408,10 @@ export default function playPong() {
     };
   }, []);
 
+  setInterval(async () => {
+    await sendUpdate(roomId, curUser, ballX, ballX);
+  }, 3000);
+
   //call this function when we need to refresh our room
   async function updateGame() {
     let data = await Room.update(roomId, socket);
@@ -411,12 +426,14 @@ export default function playPong() {
     <>
       <Stack.Screen options={{ header: () => null }} />
       <Text>{player1}</Text>
-      <Text>{player2}</Text>
+      <Text>{ballX}</Text>
       <Pong
         key={player2}
         curUser={curUser}
         player1={player1}
         player2={player2}
+        roomId={roomId}
+        setBallX={setBallX}
       ></Pong>
     </>
   );
