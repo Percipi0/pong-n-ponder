@@ -65,7 +65,7 @@ export default function Layout() {
           }}
         />
         <Tabs.Screen
-          name="pong"
+          name="itemshop"
           options={{
             title: "Boutique",
             headerTitle: "Boutique",
@@ -77,6 +77,12 @@ export default function Layout() {
                 color={Themes.colors.lightAccent}
               />
             ),
+          }}
+        />
+        <Tabs.Screen
+          name="pong"
+          options={{
+            href: null,
           }}
         />
       </Tabs>

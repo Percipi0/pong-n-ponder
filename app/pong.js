@@ -14,11 +14,21 @@ import Matter from "matter-js";
 import Physics from "../utils/Physics";
 import Renderer from "../utils/Renderer";
 import { Stack } from "expo-router/stack";
+import { useLocalSearchParams } from "expo-router";
+import { useState, useEffect } from "react";
+import io from "socket.io-client";
+import Room from "../utils/room.js";
 
-export default class Pong extends Component {
+let URL = "http://10.31.11.154:1930";
+export const socket = io(URL);
+
+class Pong extends Component {
   // Sets up physics engine, mouse tracker, and renderable objects
   constructor(props) {
     super(props);
+    this.curUser = props.curUser;
+    this.player1 = props.player1;
+    this.player2 = props.player2;
     this.gameEngine = null;
     this.entities = this.setupWorld();
     this.leftPaddlePosition = new Animated.ValueXY({
@@ -34,6 +44,10 @@ export default class Pong extends Component {
           toValue: { x: Constants.LEFT_PADDLE_X, y: gesture.moveY },
           useNativeDriver: false,
         }).start();
+        console.log(
+          this.entities.leftPaddle.position + " "
+          //Matter.Body.leftPaddle.position
+        );
       },
     });
     this.state = {
@@ -309,10 +323,10 @@ export default class Pong extends Component {
   };
 
   render() {
-    const startText = "Press to start";
+    const startText =
+      this.player2 === "" ? "Waiting for opponent..." : "Press to start";
     return (
       <View style={styles.container} {...this.panResponder.panHandlers}>
-        <Stack.Screen options={{ header: () => null }} />
         <GameEngine
           entities={this.entities}
           ref={(ref) => {
@@ -339,6 +353,62 @@ export default class Pong extends Component {
       </View>
     );
   }
+}
+
+export default function playPong() {
+  const params = useLocalSearchParams();
+
+  const [roomId, setRoomId] = useState(params.roomId);
+  const [curUser, setCurUser] = useState(params.curUser);
+  const [player1, setPlayer1] = useState(params.player1);
+  const [player2, setPlayer2] = useState(params.player2);
+
+  //console.log(curUser);
+  //console.log(">.<");
+  //console.log(socket);
+
+  //room update event handler
+  useEffect(() => {
+    socket.on("roomUpdate", (msg) => {
+      if (msg["id"] === roomId) {
+        if (msg["message"] === "player2 joined") {
+          //console.log(msg);
+          //console.log("hiiiiii");
+          updateGame();
+        } else if (msg["message"] === "room updated") {
+          updateGame();
+        }
+      }
+    });
+
+    return () => {
+      socket.off("roomUpdate");
+    };
+  }, []);
+
+  //call this function when we need to refresh our room
+  async function updateGame() {
+    let data = await Room.update(roomId, socket);
+    //console.log(">.<");
+    //console.log(data);
+    setPlayer1(data.player1);
+    setPlayer2(data.player2);
+  }
+
+  //main components
+  return (
+    <>
+      <Stack.Screen options={{ header: () => null }} />
+      <Text>{player1}</Text>
+      <Text>{player2}</Text>
+      <Pong
+        key={player2}
+        curUser={curUser}
+        player1={player1}
+        player2={player2}
+      ></Pong>
+    </>
+  );
 }
 
 const styles = StyleSheet.create({

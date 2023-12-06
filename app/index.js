@@ -73,6 +73,15 @@ export default function App() {
         if (msg["message"] === "player2 joined") {
           console.log(msg);
           updateRoom(socket);
+          /*router.push({
+            pathname: "/pong",
+            params: {
+              curUser: username,
+              player1: room.player1,
+              player2: room.player2,
+              socket: socket,
+            },
+          });*/
         } else if (msg["message"] === "room updated") {
           updateRoom(socket);
         }
@@ -279,12 +288,27 @@ export default function App() {
           />
 
           <View style={styles.inputContainer}>
-            <Pressable onPress={sendMessage} style={styles.chatButton}>
-              <MaterialCommunityIcons
-                name="gamepad-square-outline"
-                style={styles.chatButtonInner}
-              />
-            </Pressable>
+            <Link
+              asChild
+              style={styles.playLink}
+              href={{
+                pathname: "/pong",
+                params: {
+                  curUser: username,
+                  player1: room.player1,
+                  player2: room.player2,
+                  roomId: id,
+                  socket: socket,
+                },
+              }}
+            >
+              <Pressable style={styles.chatButton}>
+                <MaterialCommunityIcons
+                  name="gamepad-square-outline"
+                  style={styles.chatButtonInner}
+                />
+              </Pressable>
+            </Link>
             <TextInput
               selectionColor={Themes.colors.text}
               ref={messageInput}
