@@ -29,7 +29,6 @@ class Pong extends Component {
   // Sets up physics engine, mouse tracker, and renderable objects
   constructor(props) {
     super(props);
-    this.setBallX = props.setBallX;
     this.curUser = props.curUser;
     this.player1 = props.player1;
     this.player2 = props.player2;
@@ -164,7 +163,7 @@ class Pong extends Component {
       ball,
     ]);
 
-    Matter.Events.on(engine, "afterUpdate", (event) => {
+    Matter.Events.on(engine, "afterUpdate", async (event) => {
       console.log(
         "Ball Position: (" +
           this.entities.ball.body.position.x +
@@ -172,7 +171,12 @@ class Pong extends Component {
           this.entities.ball.body.position.y +
           ")"
       );
-      this.setBallX(this.entities.ball.body.position.x);
+      await sendUpdate(
+        this.roomId,
+        this.curUser,
+        this.entities.ball.body.position.x,
+        this.entities.ball.body.position.y
+      );
     });
 
     /**
@@ -427,9 +431,6 @@ export default function playPong() {
   const [curUser, setCurUser] = useState(params.curUser);
   const [player1, setPlayer1] = useState(params.player1);
   const [player2, setPlayer2] = useState(params.player2);
-  const [ballX, setBallX] = useState(null);
-
-  // const [ballX, setBallX] = useState(null);
 
   //console.log(curUser);
   //console.log(">.<");
@@ -454,10 +455,6 @@ export default function playPong() {
     };
   }, []);
 
-  setInterval(async () => {
-    await sendUpdate(roomId, curUser, ballX, ballX);
-  }, 3000);
-
   //call this function when we need to refresh our room
   async function updateGame() {
     let data = await Room.update(roomId, socket);
@@ -479,7 +476,6 @@ export default function playPong() {
         player1={player1}
         player2={player2}
         roomId={roomId}
-        setBallX={setBallX}
       ></Pong>
     </>
   );
