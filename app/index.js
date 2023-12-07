@@ -16,7 +16,7 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import { useState, useEffect, useRef, createRef } from "react";
+import { useState, useEffect, useRef, createRef, useContext } from "react";
 import { Themes } from "../assets/Themes/index.js";
 import { Stack } from "expo-router/stack";
 import { Link, useRouter, Tabs } from "expo-router/";
@@ -30,11 +30,12 @@ import * as Updates from "expo-updates";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { philosophers } from "../utils/philosophers.js";
+import { bruhContext } from "./_layout.js";
 
 let width = Dimensions.get("window").width;
 let height = Dimensions.get("window").height;
 
-const URL = "http://10.31.11.154:1930";
+const URL = "http://128.12.123.204:1930";
 
 const socket = io(URL, { transports: ["websocket"] });
 
@@ -217,6 +218,9 @@ export default function App() {
     onChangePhilosopher(myPhilosopher);
   }
 
+  const { paddleColor1, setPaddleColor1, paddleColor2, setPaddleColor2 } =
+    useContext(bruhContext);
+
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ header: () => null }} />
@@ -226,6 +230,9 @@ export default function App() {
           keyboardVerticalOffset={keyboardVerticalOffset2}
           style={styles.joinRoomContainer}
         >
+          <Text>{paddleColor1}</Text>
+          <Text>{paddleColor2}</Text>
+
           <Text style={styles.joinRoomPrompt}>Enter a moniker:</Text>
           <TextInput
             selectionColor={Themes.colors.text}

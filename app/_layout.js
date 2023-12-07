@@ -3,6 +3,7 @@ import { useLocalSearchParams } from "expo-router";
 import { Themes } from "../assets/Themes/index.js";
 import { Dimensions } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 let width = Dimensions.get("window").width;
 let height = Dimensions.get("window").height;
@@ -11,9 +12,18 @@ import { Tabs } from "expo-router";
 
 import { Platform, View, ScrollView } from "react-native";
 
+import { createContext, useState } from "react";
+
+export const bruhContext = createContext();
+
 export default function Layout() {
+  const [paddleColor1, setPaddleColor1] = useState(null);
+  const [paddleColor2, setPaddleColor2] = useState(null);
+
   return (
-    <>
+    <bruhContext.Provider
+      value={{ paddleColor1, setPaddleColor1, paddleColor2, setPaddleColor2 }}
+    >
       <Tabs
         screenOptions={{
           tabBarHideOnKeyboard: true,
@@ -71,8 +81,8 @@ export default function Layout() {
             headerTitle: "Boutique",
             tabBarLabel: "Boutique",
             tabBarIcon: () => (
-              <AntDesign
-                name="shoppingcart"
+              <Ionicons
+                name="md-shirt-outline"
                 size={24}
                 color={Themes.colors.lightAccent}
               />
@@ -86,6 +96,6 @@ export default function Layout() {
           }}
         />
       </Tabs>
-    </>
+    </bruhContext.Provider>
   );
 }
