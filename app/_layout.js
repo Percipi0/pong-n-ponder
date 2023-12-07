@@ -8,17 +8,19 @@ import { Ionicons } from "@expo/vector-icons";
 let width = Dimensions.get("window").width;
 let height = Dimensions.get("window").height;
 
-import { Tabs } from "expo-router";
+import { Tabs, useRouter } from "expo-router";
 
-import { Platform, View, ScrollView } from "react-native";
+import { Platform, View, ScrollView, Pressable } from "react-native";
 
 import { createContext, useState } from "react";
 
 export const bruhContext = createContext();
 
 export default function Layout() {
-  const [paddleColor1, setPaddleColor1] = useState(null);
-  const [paddleColor2, setPaddleColor2] = useState(null);
+  const [paddleColor1, setPaddleColor1] = useState(Themes.colors.VSOrange);
+  const [paddleColor2, setPaddleColor2] = useState(Themes.colors.VSGreen);
+
+  const router = useRouter();
 
   return (
     <bruhContext.Provider
@@ -93,6 +95,7 @@ export default function Layout() {
           name="pong"
           options={{
             href: null,
+            tabBarStyle: { display: "none" },
           }}
         />
       </Tabs>

@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   PanResponder,
   Animated,
+  Dimensions,
+  Pressable,
 } from "react-native";
 import Constants from "../utils/Constants";
 import { GameEngine } from "react-native-game-engine";
@@ -16,19 +18,27 @@ import Renderer from "../utils/Renderer";
 
 import { colors } from "../assets/Themes/colors.js";
 import { Stack } from "expo-router/stack";
+import { useRouter } from "expo-router";
 import { useLocalSearchParams } from "expo-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import io from "socket.io-client";
 import Room from "../utils/room.js";
+import { bruhContext } from "./_layout.js";
+import { useIsFocused } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons";
+import { Themes } from "../assets/Themes/index.js";
 
-const URL = "http://10.31.11.154:1930";
-
-const socket = io(URL, { transports: ["websocket"] });
+let width = Dimensions.get("window").width;
+let height = Dimensions.get("window").height;
 
 class Pong extends Component {
   // Sets up physics engine, mouse tracker, and renderable objects
   constructor(props) {
     super(props);
+
+    this.paddleColor1 = props.color1;
+    this.paddleColor2 = props.color2;
+
     this.gameEngine = null;
     this.entities = this.setupWorld();
     this.leftPaddlePosition = new Animated.ValueXY({
@@ -53,7 +63,7 @@ class Pong extends Component {
         const maxY = Constants.MAX_HEIGHT - Constants.WALL_HEIGHT;
         if (fingerY < minY) fingerY = minY;
         else if (fingerY > maxY) fingerY = maxY;
-        console.log(gesture.moveX);
+        //console.log(gesture.moveX);
         if (gesture.moveX < Constants.MAX_WIDTH / 2) {
           Animated.spring(this.leftPaddlePosition, {
             toValue: { x: Constants.LEFT_PADDLE_X, y: fingerY },
@@ -214,13 +224,13 @@ class Pong extends Component {
       leftPaddle: {
         body: leftPaddle,
         dimensions: [Constants.PADDLE_WIDTH, Constants.PADDLE_HEIGHT],
-        color: colors.lightAccent,
+        color: this.paddleColor1,
         renderer: Renderer,
       },
       rightPaddle: {
         body: rightPaddle,
         dimensions: [Constants.PADDLE_WIDTH, Constants.PADDLE_HEIGHT],
-        color: colors.lightAccent,
+        color: this.paddleColor2,
         renderer: Renderer,
       },
       leftGoal: {
@@ -376,48 +386,44 @@ class Pong extends Component {
 
 export default function playPong() {
   const params = useLocalSearchParams();
+  const isFocused = useIsFocused();
+
+  const router = useRouter();
 
   const [roomId, setRoomId] = useState(params.roomId);
   const [curUser, setCurUser] = useState(params.curUser);
   const [player1, setPlayer1] = useState(params.player1);
   const [player2, setPlayer2] = useState(params.player2);
-  //room update event handler
-  useEffect(() => {
-    socket.on("roomUpdate", (msg) => {
-      if (msg["id"] === roomId) {
-        if (msg["message"] === "player2 joined") {
-          updateGame();
-        } else if (msg["message"] === "room updated") {
-          updateGame();
-        }
-      }
-    });
 
-    return () => {
-      socket.off("roomUpdate");
-    };
-  }, []);
-
-  //call this function when we need to refresh our room
-  async function updateGame() {
-    let data = await Room.update(roomId, socket);
-    setPlayer1(data.player1);
-    setPlayer2(data.player2);
-  }
+  const { paddleColor1, setPaddleColor1, paddleColor2, setPaddleColor2 } =
+    useContext(bruhContext);
 
   //main components
-  return (
-    <>
-      <Stack.Screen options={{ header: () => null }} />
-      <Pong
-        key={player2}
-        curUser={curUser}
-        player1={player1}
-        player2={player2}
-        roomId={roomId}
-      ></Pong>
-    </>
-  );
+
+  if (isFocused) {
+    return (
+      <>
+        <Stack.Screen options={{ header: () => null }} />
+        <Pressable
+          onPress={() =>
+            router.push({ pathname: "/", params: { pongStatus: "leave" } })
+          }
+          style={styles.backButton}
+        >
+          <AntDesign style={styles.backIcon} name="leftcircle" />
+        </Pressable>
+        <Pong
+          key={player2}
+          curUser={curUser}
+          player1={player1}
+          player2={player2}
+          roomId={roomId}
+          color1={paddleColor1}
+          color2={paddleColor2}
+        />
+      </>
+    );
+  } else return null;
 }
 
 const styles = StyleSheet.create({
@@ -463,5 +469,18 @@ const styles = StyleSheet.create({
   startText: {
     color: "white",
     fontSize: 48,
+  },
+  backButton: {
+    width: width / 5,
+    height: width / 5,
+    position: "absolute",
+    zIndex: 9,
+    left: -height / 60,
+    top: height / 85,
+  },
+  backIcon: {
+    color: Themes.colors.background,
+    fontSize: width * 0.08,
+    textAlign: "center",
   },
 });

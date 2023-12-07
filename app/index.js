@@ -19,7 +19,7 @@ import {
 import { useState, useEffect, useRef, createRef, useContext } from "react";
 import { Themes } from "../assets/Themes/index.js";
 import { Stack } from "expo-router/stack";
-import { Link, useRouter, Tabs } from "expo-router/";
+import { Link, useRouter, Tabs, useLocalSearchParams } from "expo-router/";
 import { Drawer } from "expo-router/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -30,7 +30,6 @@ import * as Updates from "expo-updates";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { philosophers } from "../utils/philosophers.js";
-import { bruhContext } from "./_layout.js";
 
 let width = Dimensions.get("window").width;
 let height = Dimensions.get("window").height;
@@ -57,6 +56,13 @@ export default function App() {
 
   //used to add philosopher name to input box
   usernameInput = createRef();
+
+  let params = useLocalSearchParams();
+
+  if (params.pongStatus === "leave") {
+    pongUpdate(params.pongStatus);
+    params.pongStatus = null;
+  }
 
   //connect event handler
   useEffect(() => {
@@ -184,6 +190,11 @@ export default function App() {
     setRoom(newRoom);
   }
 
+  async function pongUpdate(message) {
+    let newRoom = await Room.pongUpdate(id, username, message, socket);
+    setRoom(newRoom);
+  }
+
   //rendering function for messages flatlist
   const renderItem = ({ item }) => (
     <Message
@@ -212,14 +223,10 @@ export default function App() {
   function getPhilosopher() {
     let myPhilosopher =
       philosophers[Math.floor(Math.random() * philosophers.length)];
-    //console.log(myPhilosopher);
     usernameInput.current.clear();
     onChangeName(myPhilosopher);
     onChangePhilosopher(myPhilosopher);
   }
-
-  const { paddleColor1, setPaddleColor1, paddleColor2, setPaddleColor2 } =
-    useContext(bruhContext);
 
   return (
     <View style={styles.container}>
@@ -230,9 +237,6 @@ export default function App() {
           keyboardVerticalOffset={keyboardVerticalOffset2}
           style={styles.joinRoomContainer}
         >
-          <Text>{paddleColor1}</Text>
-          <Text>{paddleColor2}</Text>
-
           <Text style={styles.joinRoomPrompt}>Enter a moniker:</Text>
           <TextInput
             selectionColor={Themes.colors.text}
@@ -311,7 +315,12 @@ export default function App() {
                 },
               }}
             >
-              <Pressable style={styles.chatButton}>
+              <Pressable
+                onPress={() => {
+                  pongUpdate("join");
+                }}
+                style={styles.chatButton}
+              >
                 <MaterialCommunityIcons
                   name="gamepad-square-outline"
                   style={styles.chatButtonInner}
@@ -551,5 +560,6 @@ const styles = StyleSheet.create({
     fontFamily: Themes.fonts.primary,
     fontStyle: "italic",
     color: "grey",
+    width: width,
   },
 });

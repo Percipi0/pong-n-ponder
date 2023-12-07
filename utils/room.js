@@ -80,20 +80,19 @@ export default class Room {
     return curRoom;
   }
 
-  static async sendMovementAndUpdate(roomId, sender, ballX, ballY, socket) {
+  static async pongUpdate(roomId, sender, message, socket) {
     let data = await apiRequest("PATCH", "/room_update_game/" + roomId, {
       id: roomId,
       sender: sender,
-      ballX: ballX,
-      ballY: ballY,
+      message: message,
     });
-    //let curRoom = new Room(data, socket);
+    let curRoom = new Room(data, socket);
 
-    /*curRoom.socket.emit("roomUpdate", {
+    curRoom.socket.emit("roomUpdate", {
       id: roomId,
       message: "room updated",
-    });*/
-    //return curRoom;
+    });
+    return curRoom;
   }
 
   static async delete(roomId) {
