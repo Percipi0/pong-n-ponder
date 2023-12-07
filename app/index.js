@@ -34,9 +34,9 @@ import { philosophers } from "../utils/philosophers.js";
 let width = Dimensions.get("window").width;
 let height = Dimensions.get("window").height;
 
-const URL = "http://128.12.123.204:1930";
+const URL = "http://10.31.11.154:1930";
 
-const socket = io(URL, { transports: ["websocket"] });
+const socket = io(URL);
 
 const keyboardVerticalOffset = Platform.OS === "ios" ? 50 : -height / 3.78;
 const keyboardVerticalOffset2 = Platform.OS === "ios" ? 50 : -height / 2;
@@ -82,15 +82,6 @@ export default function App() {
         if (msg["message"] === "player2 joined") {
           console.log(msg);
           updateRoom(socket);
-          /*router.push({
-            pathname: "/pong",
-            params: {
-              curUser: username,
-              player1: room.player1,
-              player2: room.player2,
-              socket: socket,
-            },
-          });*/
         } else if (msg["message"] === "room updated") {
           updateRoom(socket);
         }
