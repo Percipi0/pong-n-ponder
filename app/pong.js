@@ -20,7 +20,6 @@ import { useLocalSearchParams } from "expo-router";
 import { useState, useEffect } from "react";
 import io from "socket.io-client";
 import Room from "../utils/room.js";
-//import socket from "./index.js";
 
 const URL = "http://10.31.11.154:1930";
 
@@ -30,11 +29,6 @@ class Pong extends Component {
   // Sets up physics engine, mouse tracker, and renderable objects
   constructor(props) {
     super(props);
-    this.curUser = props.curUser;
-    this.player1 = props.player1;
-    this.player2 = props.player2;
-    this.roomId = props.roomId;
-    this.moveTally = 0;
     this.gameEngine = null;
     this.entities = this.setupWorld();
     this.leftPaddlePosition = new Animated.ValueXY({
@@ -46,9 +40,6 @@ class Pong extends Component {
       y: Constants.PADDLE_Y_START,
     });
     this.physicsProps = {
-      curUser: this.curUser,
-      player1: this.player1,
-      player2: this.player2,
       leftPaddlePosition: this.leftPaddlePosition,
       rightPaddlePosition: this.rightPaddlePosition,
     };
@@ -62,38 +53,19 @@ class Pong extends Component {
         const maxY = Constants.MAX_HEIGHT - Constants.WALL_HEIGHT;
         if (fingerY < minY) fingerY = minY;
         else if (fingerY > maxY) fingerY = maxY;
-        if (this.curUser === this.player1) {
+        console.log(gesture.moveX);
+        if (gesture.moveX < Constants.MAX_WIDTH / 2) {
+          console.log("A");
           Animated.spring(this.leftPaddlePosition, {
             toValue: { x: Constants.LEFT_PADDLE_X, y: fingerY },
             useNativeDriver: false,
           }).start();
-        } else if (this.curUser === this.player2) {
+        } else if (gesture.moveX >= Constants.MAX_WIDTH / 2) {
+          console.log("B");
           Animated.spring(this.rightPaddlePosition, {
             toValue: { x: Constants.RIGHT_PADDLE_X, y: fingerY },
             useNativeDriver: false,
           }).start();
-        }
-        Animated.spring(this.leftPaddlePosition, {
-          toValue: { x: Constants.LEFT_PADDLE_X, y: gesture.moveY },
-          useNativeDriver: false,
-        }).start();
-        //console.log(this.entities.leftPaddle.body.position.y);
-        /*console.log(
-          this.entities.leftPaddle.body.position.x +
-            ", " +
-            this.entities.leftPaddle.body.position.y
-        );*/
-
-        //send paddle position to server
-        this.moveTally++;
-        if (this.moveTally === 50) {
-          sendUpdate(
-            this.roomId,
-            this.curUser,
-            this.entities.leftPaddle.body.position.y.toFixed(2),
-            0
-          );
-          this.moveTally = 0;
         }
       },
     });
@@ -175,16 +147,6 @@ class Pong extends Component {
       rightGoal,
       ball,
     ]);
-
-    Matter.Events.on(engine, "afterUpdate", async (event) => {
-      /*console.log(
-        "Ball Position: (" +
-          this.entities.ball.body.position.x +
-          ", " +
-          this.entities.ball.body.position.y +
-          ")"
-      );*/
-    });
 
     /**
      * When two objects collide,
@@ -427,10 +389,6 @@ class Pong extends Component {
   }
 }
 
-async function sendUpdate(roomId, curUser, ballX, ballY) {
-  await Room.sendMovementAndUpdate(roomId, curUser, ballX, ballY, socket);
-}
-
 export default function playPong() {
   const params = useLocalSearchParams();
 
@@ -438,18 +396,11 @@ export default function playPong() {
   const [curUser, setCurUser] = useState(params.curUser);
   const [player1, setPlayer1] = useState(params.player1);
   const [player2, setPlayer2] = useState(params.player2);
-
-  //console.log(curUser);
-  //console.log(">.<");
-  //console.log(socket);
-
   //room update event handler
   useEffect(() => {
     socket.on("roomUpdate", (msg) => {
       if (msg["id"] === roomId) {
         if (msg["message"] === "player2 joined") {
-          //console.log(msg);
-          //console.log("hiiiiii");
           updateGame();
         } else if (msg["message"] === "room updated") {
           updateGame();
@@ -465,8 +416,6 @@ export default function playPong() {
   //call this function when we need to refresh our room
   async function updateGame() {
     let data = await Room.update(roomId, socket);
-    //console.log(">.<");
-    //console.log(data);
     setPlayer1(data.player1);
     setPlayer2(data.player2);
   }
