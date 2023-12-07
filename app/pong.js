@@ -22,8 +22,9 @@ import io from "socket.io-client";
 import Room from "../utils/room.js";
 //import socket from "./index.js";
 
-let URL = "http://10.31.11.154:1930";
-export const socket = io(URL);
+const URL = "http://10.31.11.154:1930";
+
+const socket = io(URL, { transports: ["websocket"] });
 
 class Pong extends Component {
   // Sets up physics engine, mouse tracker, and renderable objects
@@ -82,6 +83,18 @@ class Pong extends Component {
             ", " +
             this.entities.leftPaddle.body.position.y
         );*/
+
+        //send paddle position to server
+        this.moveTally++;
+        if (this.moveTally === 50) {
+          sendUpdate(
+            this.roomId,
+            this.curUser,
+            this.entities.leftPaddle.body.position.y.toFixed(2),
+            0
+          );
+          this.moveTally = 0;
+        }
       },
     });
     this.state = {
@@ -164,19 +177,13 @@ class Pong extends Component {
     ]);
 
     Matter.Events.on(engine, "afterUpdate", async (event) => {
-      console.log(
+      /*console.log(
         "Ball Position: (" +
           this.entities.ball.body.position.x +
           ", " +
           this.entities.ball.body.position.y +
           ")"
-      );
-      await sendUpdate(
-        this.roomId,
-        this.curUser,
-        this.entities.ball.body.position.x,
-        this.entities.ball.body.position.y
-      );
+      );*/
     });
 
     /**

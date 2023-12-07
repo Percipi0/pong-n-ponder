@@ -87,13 +87,13 @@ export default class Room {
       ballX: ballX,
       ballY: ballY,
     });
-    let curRoom = new Room(data, socket);
-    
-    curRoom.socket.emit("roomUpdate", {
+    //let curRoom = new Room(data, socket);
+
+    /*curRoom.socket.emit("roomUpdate", {
       id: roomId,
       message: "room updated",
-    });
-    return curRoom;
+    });*/
+    //return curRoom;
   }
 
   static async delete(roomId) {

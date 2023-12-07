@@ -15,13 +15,11 @@ const Physics =
       .filter((t) => t.type === "move")
       .forEach((t) => {
         if (curUser === player1) {
-          console.log("P1 Physics");
           Matter.Body.setPosition(leftPaddle, {
             x: Constants.LEFT_PADDLE_X,
             y: physicsProps.leftPaddlePosition.y._value,
           });
         } else if (curUser === player2) {
-          console.log("P2 Physics");
           Matter.Body.setPosition(rightPaddle, {
             x: Constants.RIGHT_PADDLE_X,
             y: physicsProps.rightPaddlePosition.y._value,
