@@ -55,13 +55,11 @@ class Pong extends Component {
         else if (fingerY > maxY) fingerY = maxY;
         console.log(gesture.moveX);
         if (gesture.moveX < Constants.MAX_WIDTH / 2) {
-          console.log("A");
           Animated.spring(this.leftPaddlePosition, {
             toValue: { x: Constants.LEFT_PADDLE_X, y: fingerY },
             useNativeDriver: false,
           }).start();
         } else if (gesture.moveX >= Constants.MAX_WIDTH / 2) {
-          console.log("B");
           Animated.spring(this.rightPaddlePosition, {
             toValue: { x: Constants.RIGHT_PADDLE_X, y: fingerY },
             useNativeDriver: false,
@@ -71,8 +69,6 @@ class Pong extends Component {
     });
     this.state = {
       running: false,
-      p1ready: true, // TODO: Should be false once multiplayer communication is finished
-      p2ready: true, // TODO: Should be false once multiplayer communication is finished
       p1score: 0,
       p2score: 0,
       ballSpeed: Constants.NORMAL_BALL_SPEED,
@@ -330,34 +326,29 @@ class Pong extends Component {
   };
 
   start = () => {
-    if (this.curUser === this.player1) {
-      this.setState({ p1ready: true });
-    } else if (this.curUser === this.player2) {
-      this.setState({ p2ready: true });
-    }
-    if (this.state.p1ready && this.state.p2ready) {
-      this.setState({
-        running: true,
-      });
-      this.bounceBall(
-        this.entities.leftPaddle.body,
-        this.entities.ball.body,
-        1,
-        1,
-        Constants.NORMAL_BALL_SPEED / 2
-      );
-    }
+    this.setState({
+      running: true,
+    });
+    this.bounceBall(
+      this.entities.leftPaddle.body,
+      this.entities.ball.body,
+      1,
+      1,
+      Constants.NORMAL_BALL_SPEED / 2
+    );
   };
 
   render() {
-    let startText;
-    if (!this.player2) startText = "No opponent available...";
-    else if (this.curUser === this.player1) {
-      if (this.state.p1ready) startText = "Waiting for opponent...";
-      else startText = "Press to start";
-    } else if (this.curUser === this.player2) {
-      if (this.state.p2ready) startText = "Waiting for opponent...";
-      else startText = "Press to start";
+    const startText = "Press to start";
+    let startScreen;
+    if (!this.state.running) {
+      startScreen = [
+        <TouchableOpacity onPress={this.start} style={styles.startButton}>
+          <View style={styles.start}>
+            <Text style={styles.startText}>{startText}</Text>
+          </View>
+        </TouchableOpacity>,
+      ];
     }
     return (
       <View style={styles.container} {...this.panResponder.panHandlers}>
@@ -377,13 +368,7 @@ class Pong extends Component {
             {this.state.p1score} - {this.state.p2score}
           </Text>
         </View>
-        {!this.state.running && (
-          <TouchableOpacity onPress={this.start} style={styles.startButton}>
-            <View style={styles.start}>
-              <Text style={styles.startText}>{startText}</Text>
-            </View>
-          </TouchableOpacity>
-        )}
+        {startScreen}
       </View>
     );
   }
@@ -424,8 +409,6 @@ export default function playPong() {
   return (
     <>
       <Stack.Screen options={{ header: () => null }} />
-      <Text>{player1}</Text>
-      <Text>{player2}</Text>
       <Pong
         key={player2}
         curUser={curUser}
