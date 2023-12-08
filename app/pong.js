@@ -131,6 +131,11 @@ class Pong extends Component {
       ball,
     ]);
 
+    // startButton does not work on Android devices (although it works on an Android simulator), so it is skipped
+    if (Platform.OS === "android" && !this.state.running) {
+      this.start();
+    }
+
     /**
      * When two objects collide,
      * check if one of the objects is the ball.
@@ -326,10 +331,6 @@ class Pong extends Component {
   };
 
   render() {
-    // startButton does not work on Android devices (although it works on an Android simulator), so it is skipped
-    if (Platform.OS === "android" && !this.state.running) {
-      this.start();
-    }
     const startText = "Press to start";
     return (
       <View style={styles.container} {...this.panResponder.panHandlers}>
