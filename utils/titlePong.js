@@ -121,25 +121,21 @@ class TitlePong extends Component {
       floor: {
         body: floor,
         dimensions: [titleConstants.MAX_WIDTH, titleConstants.WALL_HEIGHT],
-        color: "green",
         renderer: Renderer,
       },
       ceiling: {
         body: ceiling,
         dimensions: [titleConstants.MAX_WIDTH, titleConstants.WALL_HEIGHT],
-        color: "green",
         renderer: Renderer,
       },
       leftPaddle: {
         body: leftPaddle,
         dimensions: [titleConstants.PADDLE_WIDTH, titleConstants.PADDLE_HEIGHT],
-        color: "green",
         renderer: Renderer,
       },
       rightPaddle: {
         body: rightPaddle,
         dimensions: [titleConstants.PADDLE_WIDTH, titleConstants.PADDLE_HEIGHT],
-        color: "green",
         renderer: Renderer,
       },
       ball: {
