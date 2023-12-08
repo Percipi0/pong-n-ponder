@@ -1,6 +1,4 @@
 import Matter from "matter-js";
-import titleConstants from "./titleConstants";
-import randomIntFromInterval from "./randomNumber";
 
 const titlePhysics =
   () =>

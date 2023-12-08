@@ -129,7 +129,6 @@ export default function App() {
   async function updateRoom() {
     let data = await Room.update(id, socket);
     setRoom(data);
-    //console.log(data);
   }
 
   //define message object
@@ -343,7 +342,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     marginTop: height / 3,
-    //marginBottom: height / 20,
     justifyContent: "center",
     marginLeft: width / 14.5,
     justifyContent: "space-around",
@@ -352,8 +350,6 @@ const styles = StyleSheet.create({
     color: Themes.colors.text,
     fontFamily: Themes.fonts.primary,
     fontSize: width / 20,
-    //paddingBottom: height / 50,
-    //paddingTop: height / 40,
     marginTop: height / 30,
     marginBottom: height / 50,
   },
@@ -372,7 +368,6 @@ const styles = StyleSheet.create({
   },
   joinRoomBtn: {
     marginTop: height / 12,
-    //marginBottom: height / 10,
     width: width / 4,
     height: height / 20,
     backgroundColor: "red",
@@ -542,7 +537,6 @@ const styles = StyleSheet.create({
   titleContainer: {
     width: width / 2,
     height: height / 3,
-    //flex: 1,
     textAlign: "center",
     justifyContent: "center",
     alignItems: "center",

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Platform } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { GameEngine } from "react-native-game-engine";
 import Matter from "matter-js";
 import titlePhysics from "../utils/titlePhysics";
@@ -11,7 +11,6 @@ import { useRouter } from "expo-router";
 import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
-import { Themes } from "../assets/Themes/index.js";
 
 class TitlePong extends Component {
   // Sets up physics engine, mouse tracker, and renderable objects
@@ -107,11 +106,7 @@ class TitlePong extends Component {
             this.bounceBall(collision[1], -1, ball.velocity.y); // Bounce left
           } else {
             // ball hit ceiling/floor
-            this.bounceBall(
-              collision[1],
-              Platform.OS === "ios" ? ball.velocity.x : ball.velocity.x / 2.5,
-              Platform.OS === "ios" ? -ball.velocity.y : -ball.velocity.y / 2.5
-            );
+            this.bounceBall(collision[1], ball.velocity.x, -ball.velocity.y);
           }
         }
       }
@@ -162,13 +157,14 @@ class TitlePong extends Component {
       x: xDirection,
       y: yDirection,
     });
+    Matter.Body.setSpeed(ball, this.state.ballSpeed);
   };
 
   start = () => {
     this.setState({
       running: true,
     });
-    this.bounceBall(this.entities.ball.body, 1, 1);
+    this.bounceBall(this.entities.ball.body, 1, 1); // Bounce right and down
   };
 
   render() {
@@ -229,44 +225,5 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: titleConstants.MARGIN,
     top: titleConstants.MARGIN,
-  },
-  start: {
-    alignItems: "center",
-    backgroundColor: "black",
-    bottom: titleConstants.MARGIN,
-    justifyContent: "center",
-    left: titleConstants.MARGIN,
-    opacity: 0.8,
-    position: "absolute",
-    right: titleConstants.MARGIN,
-    top: titleConstants.MARGIN,
-  },
-  startButton: {
-    bottom: titleConstants.MARGIN,
-    flex: 1,
-    left: titleConstants.MARGIN,
-    position: "absolute",
-    right: titleConstants.MARGIN,
-    top: titleConstants.MARGIN,
-  },
-  startText: {
-    color: "white",
-    fontSize: 48,
-  },
-  backButton: {
-    width: titleConstants.MAX_WIDTH / 5,
-    height: titleConstants.WALL_HEIGHT / 1.5,
-    position: "absolute",
-    justifyContent: "flex-end",
-    zIndex: 9,
-    flex: 1,
-    left: -titleConstants.MAX_WIDTH / 100,
-    top: 0,
-    paddingBottom: 10,
-  },
-  backIcon: {
-    color: Themes.colors.background,
-    fontSize: titleConstants.MAX_WIDTH * 0.08,
-    textAlign: "center",
   },
 });
