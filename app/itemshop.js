@@ -35,7 +35,6 @@ export default function Game() {
         sliderSize={40}
         noSnap={true}
         row={false}
-        onColorChange={setPaddleColor1}
         onColorChangeComplete={setPaddleColor1}
       />
 
@@ -50,7 +49,6 @@ export default function Game() {
         sliderSize={40}
         noSnap={true}
         row={false}
-        onColorChange={setPaddleColor2}
         onColorChangeComplete={setPaddleColor2}
       />
 
