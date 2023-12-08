@@ -9,6 +9,7 @@ import {
   Animated,
   Dimensions,
   Pressable,
+  Platform,
 } from "react-native";
 import Constants from "../utils/Constants";
 import { GameEngine } from "react-native-game-engine";
@@ -58,7 +59,6 @@ class Pong extends Component {
         const maxY = Constants.MAX_HEIGHT - Constants.WALL_HEIGHT;
         if (fingerY < minY) fingerY = minY;
         else if (fingerY > maxY) fingerY = maxY;
-        //console.log(gesture.moveX);
         if (gesture.moveX < Constants.MAX_WIDTH / 2) {
           Animated.spring(this.leftPaddlePosition, {
             toValue: { x: Constants.LEFT_PADDLE_X, y: fingerY },
@@ -346,7 +346,7 @@ class Pong extends Component {
   render() {
     const startText = "Press to start";
     let startScreen;
-    if (!this.state.running) {
+    if (Platform.OS === "ios" && !this.state.running) {
       startScreen = [
         <TouchableOpacity onPress={this.start} style={styles.startButton}>
           <View style={styles.start}>
