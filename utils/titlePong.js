@@ -19,8 +19,7 @@ class TitlePong extends Component {
     this.gameEngine = null;
     this.entities = this.setupWorld();
     this.state = {
-      running: false,
-      ballSpeed: titleConstants.NORMAL_BALL_SPEED,
+      running: true,
     };
   }
 
@@ -70,6 +69,11 @@ class TitlePong extends Component {
     );
 
     Matter.World.add(world, [floor, ceiling, leftPaddle, rightPaddle, ball]);
+    Matter.Body.setVelocity(ball, {
+      x: 1,
+      y: 1,
+    });
+    Matter.Body.setSpeed(ball, titleConstants.NORMAL_BALL_SPEED);
 
     /**
      * When two objects collide,
@@ -117,21 +121,25 @@ class TitlePong extends Component {
       floor: {
         body: floor,
         dimensions: [titleConstants.MAX_WIDTH, titleConstants.WALL_HEIGHT],
+        color: "green",
         renderer: Renderer,
       },
       ceiling: {
         body: ceiling,
         dimensions: [titleConstants.MAX_WIDTH, titleConstants.WALL_HEIGHT],
+        color: "green",
         renderer: Renderer,
       },
       leftPaddle: {
         body: leftPaddle,
         dimensions: [titleConstants.PADDLE_WIDTH, titleConstants.PADDLE_HEIGHT],
+        color: "green",
         renderer: Renderer,
       },
       rightPaddle: {
         body: rightPaddle,
         dimensions: [titleConstants.PADDLE_WIDTH, titleConstants.PADDLE_HEIGHT],
+        color: "green",
         renderer: Renderer,
       },
       ball: {
@@ -157,18 +165,10 @@ class TitlePong extends Component {
       x: xDirection,
       y: yDirection,
     });
-    Matter.Body.setSpeed(ball, this.state.ballSpeed);
-  };
-
-  start = () => {
-    this.setState({
-      running: true,
-    });
-    this.bounceBall(this.entities.ball.body, 1, 1); // Bounce right and down
+    Matter.Body.setSpeed(ball, titleConstants.NORMAL_BALL_SPEED);
   };
 
   render() {
-    if (!this.state.running) this.start();
     return (
       <View style={styles.container}>
         <GameEngine

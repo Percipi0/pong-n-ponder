@@ -1,4 +1,5 @@
 import Matter from "matter-js";
+import titleConstants from "./titleConstants";
 
 const titlePhysics =
   () =>

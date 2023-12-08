@@ -22,7 +22,7 @@ export default titleConstants = {
   MAX_Y: screenHeight - wallHeight + paddleHeight / 4,
 
   BALL_X_START: screenWidth / 2,
-  BALL_Y_START: screenHeight / 2,
+  BALL_Y_START: wallPosition * 1.6,
   BALL_LENGTH: 30,
   NORMAL_BALL_SPEED: 1.5,
 
