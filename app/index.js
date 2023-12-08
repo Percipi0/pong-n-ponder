@@ -26,11 +26,11 @@ let width = Dimensions.get("window").width;
 let height = Dimensions.get("window").height;
 
 const URL = "http://10.31.11.154:1930";
-
 const socket = io(URL);
 
 const keyboardVerticalOffset = Platform.OS === "ios" ? 50 : -height / 3.78;
-const keyboardVerticalOffset2 = Platform.OS === "ios" ? -height / 6 : -height;
+const keyboardVerticalOffset2 =
+  Platform.OS === "ios" ? -height / 6 : -height - 50;
 
 export default function App() {
   LogBox.ignoreAllLogs(true);
@@ -212,7 +212,7 @@ export default function App() {
       <Stack.Screen options={{ header: () => null }} />
       {room === null ? (
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "position" : "padding"}
+          behavior={Platform.OS === "ios" ? "position" : "position"}
           keyboardVerticalOffset={keyboardVerticalOffset2}
           style={styles.joinRoomContainer}
         >
@@ -339,6 +339,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     marginTop: height / 3,
+    //marginBottom: height / 20,
     justifyContent: "center",
     marginLeft: width / 14.5,
     justifyContent: "space-around",
@@ -347,12 +348,14 @@ const styles = StyleSheet.create({
     color: Themes.colors.text,
     fontFamily: Themes.fonts.primary,
     fontSize: width / 20,
-    paddingBottom: height / 50,
-    paddingTop: height / 40,
+    //paddingBottom: height / 50,
+    //paddingTop: height / 40,
+    marginTop: height / 30,
+    marginBottom: height / 50,
   },
   joinRoomInput: {
     width: width / 2.1,
-    marginBottom: height / 10,
+    marginBottom: -height / 27,
     borderRadius: 5,
     height: height / 30,
     backgroundColor: Themes.colors.background,
@@ -364,8 +367,8 @@ const styles = StyleSheet.create({
     fontFamily: Themes.fonts.primary,
   },
   joinRoomBtn: {
-    marginTop: -height / 16,
-    marginBottom: height / 5,
+    marginTop: height / 12,
+    //marginBottom: height / 10,
     width: width / 4,
     height: height / 20,
     backgroundColor: "red",
@@ -386,7 +389,7 @@ const styles = StyleSheet.create({
     width: height / 30,
     height: height / 30,
     backgroundColor: "blue",
-    marginTop: -height / 7.48,
+    marginTop: height / 300,
     marginLeft: width / 2,
     justifyContent: "center",
     borderRadius: 20,
@@ -535,7 +538,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     width: width / 2,
     height: height / 3,
-    flex: 1,
+    //flex: 1,
     textAlign: "center",
     justifyContent: "center",
     alignItems: "center",
