@@ -540,7 +540,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: -height / 2.8,
+    marginTop: -height / 2.6,
   },
   pongText: {
     marginLeft: -10,
@@ -549,9 +549,10 @@ const styles = StyleSheet.create({
     color: Themes.colors.VSOrange,
     fontFamily: Themes.fonts.primary,
     fontWeight: "bold",
+    marginTop: -height / 12,
   },
   ponderText: {
-    marginTop: height / 10,
+    marginTop: height / 6,
     fontSize: width / 8,
     textAlign: "center",
     color: Themes.colors.VSGreen,
