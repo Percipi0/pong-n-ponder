@@ -18,15 +18,13 @@ import Renderer from "../utils/Renderer";
 
 import { colors } from "../assets/Themes/colors.js";
 import { Stack } from "expo-router/stack";
-import { useRouter, useLocalSearchParams } from "expo-router";
-import { useState, useContext } from "react";
+import { useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
+import { useState, useEffect, useContext } from "react";
 import { bruhContext } from "./_layout.js";
 import { useIsFocused } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import { Themes } from "../assets/Themes/index.js";
-
-let width = Dimensions.get("window").width;
-let height = Dimensions.get("window").height;
 
 class Pong extends Component {
   // Sets up physics engine, mouse tracker, and renderable objects
@@ -93,7 +91,7 @@ class Pong extends Component {
     let world = engine.world;
     let floor = Matter.Bodies.rectangle(
       Constants.MAX_WIDTH / 2,
-      Constants.MAX_HEIGHT - 25,
+      Constants.MAX_HEIGHT,
       Constants.MAX_WIDTH,
       Constants.WALL_HEIGHT,
       { isStatic: true }
@@ -102,7 +100,7 @@ class Pong extends Component {
       Constants.MAX_WIDTH / 2,
       25,
       Constants.MAX_WIDTH,
-      50,
+      Constants.WALL_HEIGHT,
       { isStatic: true }
     );
     let leftPaddle = Matter.Bodies.rectangle(
@@ -196,7 +194,7 @@ class Pong extends Component {
             this.bounceBall(
               collision[0],
               collision[1],
-              ball.velocity.x,
+              ball.velocity.x + Math.random() / 10,
               -ball.velocity.y
             ); // Maintain horizontal movement and flip vertical movement
           }
@@ -214,7 +212,7 @@ class Pong extends Component {
       },
       ceiling: {
         body: ceiling,
-        dimensions: [Constants.MAX_WIDTH, 50],
+        dimensions: [Constants.MAX_WIDTH, Constants.WALL_HEIGHT],
         color: colors.lightAccent,
         renderer: Renderer,
       },
@@ -356,7 +354,7 @@ class Pong extends Component {
           </View>
         </TouchableOpacity>,
       ];
-    }
+    } else startScreen = null;
     return (
       <View style={styles.container} {...this.panResponder.panHandlers}>
         <GameEngine
@@ -367,9 +365,7 @@ class Pong extends Component {
           running={this.state.running}
           style={styles.game}
           systems={[Physics(this.physicsProps)]}
-        >
-          <StatusBar hidden={true} />
-        </GameEngine>
+        ></GameEngine>
         <View style={styles.scoreBoard}>
           <Text style={styles.score}>
             {this.state.p1score} - {this.state.p2score}
@@ -468,16 +464,19 @@ const styles = StyleSheet.create({
     fontSize: 48,
   },
   backButton: {
-    width: width / 5,
-    height: width / 5,
+    width: Constants.MAX_WIDTH / 5,
+    height: Constants.WALL_HEIGHT / 1.5,
     position: "absolute",
+    justifyContent: "flex-end",
     zIndex: 9,
-    left: -height / 60,
-    top: height / 85,
+    flex: 1,
+    left: -Constants.MAX_WIDTH / 100,
+    top: 0,
+    paddingBottom: 10,
   },
   backIcon: {
     color: Themes.colors.background,
-    fontSize: width * 0.08,
+    fontSize: Constants.MAX_WIDTH * 0.08,
     textAlign: "center",
   },
 });
