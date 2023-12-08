@@ -25,4 +25,6 @@ export default Constants = {
   BALL_LENGTH: 20,
   NORMAL_BALL_SPEED: 5,
   MAX_BALL_SPEED: 20,
+
+  AI_SPEED: 15,
 };

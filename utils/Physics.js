@@ -1,10 +1,9 @@
 import Matter from "matter-js";
 import Constants from "./Constants";
 import randomIntFromInterval from "./randomNumber";
-import { Animated } from "react-native";
 
 const Physics =
-  (physicsProps) =>
+  (difficulty, leftPaddlePosition) =>
   (entities, { touches, time }) => {
     let engine = entities.physics.engine;
     let leftPaddle = entities.leftPaddle.body;
@@ -12,14 +11,15 @@ const Physics =
     let ball = entities.ball.body;
     let yMin = rightPaddle.position.y;
     let yMax = rightPaddle.position.y;
+    console.log(difficulty);
 
     if (ball.position.y <= rightPaddle.position.y) {
-      if (Math.random() < 0) {
-        yMin -= 20;
+      if (Math.random() < 0.1 * difficulty) {
+        yMin -= Constants.AI_SPEED;
       }
     } else {
-      if (Math.random() < 0.5) {
-        yMax += 20;
+      if (Math.random() < 0.1 * difficulty) {
+        yMax += Constants.AI_SPEED;
       }
     }
     if (rightPaddle.position.y < Constants.WALL_HEIGHT) {
@@ -37,7 +37,7 @@ const Physics =
       .forEach((t) => {
         Matter.Body.setPosition(leftPaddle, {
           x: Constants.LEFT_PADDLE_X,
-          y: physicsProps.leftPaddlePosition.y._value,
+          y: leftPaddlePosition.y._value,
         });
       });
 

@@ -14,10 +14,18 @@ export const bruhContext = createContext();
 export default function Layout() {
   const [paddleColor1, setPaddleColor1] = useState(Themes.colors.VSOrange);
   const [paddleColor2, setPaddleColor2] = useState(Themes.colors.VSGreen);
+  const [difficulty, setDifficulty] = useState(5);
 
   return (
     <bruhContext.Provider
-      value={{ paddleColor1, setPaddleColor1, paddleColor2, setPaddleColor2 }}
+      value={{
+        paddleColor1,
+        setPaddleColor1,
+        paddleColor2,
+        setPaddleColor2,
+        difficulty,
+        setDifficulty,
+      }}
     >
       <Tabs
         screenOptions={{

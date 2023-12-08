@@ -12,6 +12,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@react-native-community/masked-view": "^0.1.11",
+    "@react-native-community/slider": "^4.4.3",
     "@react-navigation/drawer": "^6.6.6",
     "@react-navigation/native": "^6.1.9",
     "axios": "^1.6.2",

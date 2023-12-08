@@ -34,6 +34,7 @@ class Pong extends Component {
 
     this.paddleColor1 = props.color1;
     this.paddleColor2 = props.color2;
+    this.difficulty = props.difficulty;
 
     this.gameEngine = null;
     this.entities = this.setupWorld();
@@ -341,7 +342,7 @@ class Pong extends Component {
           }}
           running={this.state.running}
           style={styles.game}
-          systems={[Physics(this.leftPaddlePosition)]}
+          systems={[Physics(this.difficulty, this.leftPaddlePosition)]}
         ></GameEngine>
         <View style={styles.scoreBoard}>
           <Text style={styles.score}>
@@ -371,8 +372,14 @@ export default function playPong() {
   const [player1, setPlayer1] = useState(params.player1);
   const [player2, setPlayer2] = useState(params.player2);
 
-  const { paddleColor1, setPaddleColor1, paddleColor2, setPaddleColor2 } =
-    useContext(bruhContext);
+  const {
+    paddleColor1,
+    setPaddleColor1,
+    paddleColor2,
+    setPaddleColor2,
+    difficulty,
+    setDifficulty,
+  } = useContext(bruhContext);
 
   //main components
 
@@ -396,6 +403,7 @@ export default function playPong() {
           roomId={roomId}
           color1={paddleColor1}
           color2={paddleColor2}
+          difficulty={difficulty}
         />
       </>
     );
