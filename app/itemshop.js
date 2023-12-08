@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { bruhContext } from "./_layout.js";
 import ColorPicker from "react-native-wheel-color-picker";
 import { Themes } from "../assets/Themes/index.js";
-import Slider from "@react-native-community/slider"; // Source: https://github.com/callstack/react-native-slider/tree/main
+import { Slider } from "@miblanchard/react-native-slider"; // Source: https://github.com/miblanchard/react-native-slider
 
 let width = Dimensions.get("window").width;
 let height = Dimensions.get("window").height;
@@ -56,17 +56,18 @@ export default function Game() {
         <Text style={styles.innerInfo}>Pong AI Difficulty:</Text>
         <Text style={styles.innerInfo}>{difficulty}</Text>
       </View>
-      <Slider
-        style={styles.difficultySlider}
-        minimumValue={1}
-        maximumValue={10}
-        minimumTrackTintColor={Themes.colors.darkAccent}
-        maximumTrackTintColor={Themes.colors.lightAccent}
-        step={1}
-        value={5}
-        onValueChange={setDifficulty}
-        onSlidingComplete={setDifficulty}
-      />
+      <View style={styles.difficultySlider}>
+        <Slider
+          minimumValue={1}
+          maximumValue={10}
+          minimumTrackTintColor={Themes.colors.darkAccent}
+          maximumTrackTintColor={Themes.colors.lightAccent}
+          thumbTintColor={Themes.colors.darkAccent}
+          step={1}
+          value={difficulty}
+          onValueChange={setDifficulty}
+        />
+      </View>
     </View>
   );
 }

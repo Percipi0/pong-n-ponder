@@ -1,7 +1,7 @@
 {
   "name": "pong-n-ponder",
-  "version": "0.0.1",
-  "author": "Logan Schreier <logansch@stanford.edu>",
+  "version": "1.0",
+  "author": "Logan Schreier and Alexander Worley <logansch@stanford.edu> and <aworley@stanford.edu>",
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
+    "@miblanchard/react-native-slider": "^2.3.1",
     "@react-native-community/masked-view": "^0.1.11",
-    "@react-native-community/slider": "4.4.2",
     "@react-navigation/drawer": "^6.6.6",
     "@react-navigation/native": "^6.1.9",
     "axios": "^1.6.2",
