@@ -1,8 +1,7 @@
 import apiRequest from "./apirequest.js";
-//import "/socket.io/socket.io.js";
 
 export default class Room {
-  /* Returns a Room instance, creating the Room if necessary. */
+  //returns a Room instance, creating the Room if necessary
   static async loadOrCreate(roomId, player, socket) {
     try {
       let data = await apiRequest("GET", "/rooms/" + roomId);

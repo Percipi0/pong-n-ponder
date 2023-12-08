@@ -1,21 +1,6 @@
 import * as React from "react";
-import { WebView } from "react-native-webview";
-import { useLocalSearchParams, Stack } from "expo-router";
-import {
-  StyleSheet,
-  SafeAreaView,
-  Text,
-  Pressable,
-  Image,
-  View,
-  FlatList,
-  Dimensions,
-  ActivityIndicator,
-  LogBox,
-  TextInput,
-  Alert,
-  Screen,
-} from "react-native";
+import { Stack } from "expo-router";
+import { StyleSheet, Text, View, Dimensions } from "react-native";
 import { useContext } from "react";
 import { bruhContext } from "./_layout.js";
 import ColorPicker from "react-native-wheel-color-picker";

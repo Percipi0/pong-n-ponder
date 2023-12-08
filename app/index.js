@@ -1,29 +1,20 @@
 import {
   StyleSheet,
-  SafeAreaView,
   Text,
   Pressable,
-  Image,
   View,
   FlatList,
   Dimensions,
-  ActivityIndicator,
   LogBox,
   TextInput,
   Alert,
-  AppState,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
 } from "react-native";
-import { useState, useEffect, useRef, createRef, useContext } from "react";
+import { useState, useEffect, createRef } from "react";
 import { Themes } from "../assets/Themes/index.js";
 import { Stack } from "expo-router/stack";
-import { Link, useRouter, Tabs, useLocalSearchParams } from "expo-router/";
-import { Drawer } from "expo-router/drawer";
-import { NavigationContainer } from "@react-navigation/native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import apiRequest from "../utils/apirequest.js";
+import { Link, useLocalSearchParams } from "expo-router/";
 import io from "socket.io-client";
 import Room from "../utils/room.js";
 import * as Updates from "expo-updates";
@@ -39,7 +30,7 @@ const URL = "http://10.31.11.154:1930";
 const socket = io(URL);
 
 const keyboardVerticalOffset = Platform.OS === "ios" ? 50 : -height / 3.78;
-const keyboardVerticalOffset2 = Platform.OS === "ios" ? 50 : -height / 2;
+const keyboardVerticalOffset2 = Platform.OS === "ios" ? -height / 6 : -height;
 
 export default function App() {
   LogBox.ignoreAllLogs(true);
@@ -49,7 +40,6 @@ export default function App() {
   const [room, setRoom] = useState(null);
   const [curMessage, onChangeMessageBox] = useState(null);
   const [philosopher, onChangePhilosopher] = useState("");
-  const router = useRouter();
 
   //used to clear message input box upon submit
   messageInput = createRef();
@@ -57,8 +47,8 @@ export default function App() {
   //used to add philosopher name to input box
   usernameInput = createRef();
 
+  //if the user came back from pong, send pong update
   let params = useLocalSearchParams();
-
   if (params.pongStatus === "leave") {
     pongUpdate(params.pongStatus);
     params.pongStatus = null;
@@ -74,6 +64,7 @@ export default function App() {
       socket.off("connect");
     };
   }, []);
+
   // I am logan and I am a huge nerd
   //room update event handler
   useEffect(() => {
@@ -118,14 +109,12 @@ export default function App() {
       return;
     }
 
-    //change check back to === 6 later
     if (id === null || id.length <= 0) {
       Alert.alert("Room ID must be between 1 and 6 characters long!");
       return;
     }
 
     getRoom();
-    return;
   }
 
   //make new room and sync data with server
@@ -133,15 +122,13 @@ export default function App() {
     const data = await Room.loadOrCreate(id, username, socket);
     if (data === "name already taken!" || data === "room is full!") return;
     setRoom(data);
-
-    return;
   }
 
   //call this function when we need to refresh our room
   async function updateRoom() {
     let data = await Room.update(id, socket);
     setRoom(data);
-    console.log(data);
+    //console.log(data);
   }
 
   //define message object
@@ -181,6 +168,7 @@ export default function App() {
     setRoom(newRoom);
   }
 
+  //send pong update on join or leave
   async function pongUpdate(message) {
     let newRoom = await Room.pongUpdate(id, username, message, socket);
     setRoom(newRoom);
@@ -224,10 +212,14 @@ export default function App() {
       <Stack.Screen options={{ header: () => null }} />
       {room === null ? (
         <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "position"}
+          behavior={Platform.OS === "ios" ? "position" : "padding"}
           keyboardVerticalOffset={keyboardVerticalOffset2}
           style={styles.joinRoomContainer}
         >
+          <View style={styles.titleContainer}>
+            <Text style={styles.titlePong}>Pong</Text>
+            <Text style={styles.titlePonder}>Ponder</Text>
+          </View>
           <Text style={styles.joinRoomPrompt}>Enter a moniker:</Text>
           <TextInput
             selectionColor={Themes.colors.text}
@@ -347,10 +339,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     marginTop: height / 3,
-    //height: height,
-    //width: width,
     justifyContent: "center",
     marginLeft: width / 14.5,
+    justifyContent: "space-around",
   },
   joinRoomPrompt: {
     color: Themes.colors.text,
@@ -374,6 +365,7 @@ const styles = StyleSheet.create({
   },
   joinRoomBtn: {
     marginTop: -height / 16,
+    marginBottom: height / 5,
     width: width / 4,
     height: height / 20,
     backgroundColor: "red",
@@ -406,13 +398,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: width * 0.04,
     textAlign: "center",
-    //marginRight: -width / 1.8,
-    //marginTop: -height / 7.7,
   },
   messages: {
     backgroundColor: Themes.colors.background,
     width: width,
-    height: Platform.OS === "ios" ? height * 0.62 : height * 0.6,
+    height: Platform.OS === "ios" ? height * 0.64 : height * 0.58,
     marginTop: Platform.OS === "ios" ? height / 70 : height / 70,
     borderWidth: 2,
     borderLeftWidth: 0,
@@ -421,17 +411,10 @@ const styles = StyleSheet.create({
     color: "white",
     paddingTop: 1,
     paddingBottom: 1,
-    //minHeight: Platform.OS === "ios" ? 0 : height * 0.6,
   },
   message: {
     color: "white",
-    //justifyContent: "space-between",
-    //flexShrink: 1,
-    //alignItems: "center",
-    //verticalAlign: "middle",
     width: width,
-    //height: height / 10,
-    //minHeight: 20,
     paddingTop: height / 200,
     paddingBottom: height / 200,
     flex: 1,
@@ -457,21 +440,19 @@ const styles = StyleSheet.create({
     marginRight: width / 40,
   },
   promptWrapper: {
-    //backgroundColor: "green",
     marginTop: height / 20,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     marginLeft: width / 10,
     marginRight: width / 10,
-    minHeight: height / 15,
+    height: height / 18,
   },
   prompt: {
     textAlign: "center",
     fontWeight: "bold",
     color: Themes.colors.text,
-    fontSize: 18,
-    //color: "#80FFAF",
+    fontSize: height / 50,
     fontFamily: Themes.fonts.primary,
   },
   chatRoomHeader: {
@@ -491,9 +472,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     marginTop: Platform.OS === "ios" ? height * 0.01 : height * 0.01,
-    //marginBottom: Platform.OS === "ios" ? -height / 5.5 : 0,
-    //marginLeft: width * 0.05,
-    minPadding: 2,
+    paddingTop: 3,
   },
   chatInput: {
     width: width * 0.6,
@@ -552,5 +531,30 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     color: "grey",
     width: width,
+  },
+  titleContainer: {
+    width: width / 2,
+    height: height / 3,
+    flex: 1,
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: -height / 2.8,
+  },
+  titlePong: {
+    marginLeft: -10,
+    fontSize: width / 8,
+    textAlign: "center",
+    color: Themes.colors.VSOrange,
+    fontFamily: Themes.fonts.primary,
+    fontWeight: "bold",
+  },
+  titlePonder: {
+    marginTop: height / 10,
+    fontSize: width / 8,
+    textAlign: "center",
+    color: Themes.colors.VSGreen,
+    fontFamily: Themes.fonts.primary,
+    fontWeight: "bold",
   },
 });
