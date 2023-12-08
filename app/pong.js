@@ -345,8 +345,10 @@ class Pong extends Component {
 
   render() {
     const startText = "Press to start";
-    let startScreen;
-    if (Platform.OS === "ios" && !this.state.running) {
+    let startScreen = null;
+    if (Platform.OS === "android" && !this.state.running) {
+      this.start();
+    } else if (Platform.OS === "ios" && !this.state.running) {
       startScreen = [
         <TouchableOpacity onPress={this.start} style={styles.startButton}>
           <View style={styles.start}>
@@ -354,7 +356,7 @@ class Pong extends Component {
           </View>
         </TouchableOpacity>,
       ];
-    } else startScreen = null;
+    }
     return (
       <View style={styles.container} {...this.panResponder.panHandlers}>
         <GameEngine
