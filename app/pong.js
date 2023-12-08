@@ -41,35 +41,18 @@ class Pong extends Component {
       x: Constants.LEFT_PADDLE_X,
       y: Constants.PADDLE_Y_START,
     });
-    this.rightPaddlePosition = new Animated.ValueXY({
-      x: Constants.RIGHT_PADDLE_X,
-      y: Constants.PADDLE_Y_START,
-    });
-    this.physicsProps = {
-      leftPaddlePosition: this.leftPaddlePosition,
-      rightPaddlePosition: this.rightPaddlePosition,
-    };
     // Touch detection
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
       onPanResponderMove: (event, gesture) => {
         let fingerY = gesture.moveY;
-        const minY = Constants.WALL_HEIGHT - Constants.PADDLE_HEIGHT / 2;
-        const maxY = Constants.MAX_HEIGHT - Constants.WALL_HEIGHT;
-        if (fingerY < minY) fingerY = minY;
-        else if (fingerY > maxY) fingerY = maxY;
-        if (gesture.moveX < Constants.MAX_WIDTH / 2) {
-          Animated.spring(this.leftPaddlePosition, {
-            toValue: { x: Constants.LEFT_PADDLE_X, y: fingerY },
-            useNativeDriver: false,
-          }).start();
-        } else if (gesture.moveX >= Constants.MAX_WIDTH / 2) {
-          Animated.spring(this.rightPaddlePosition, {
-            toValue: { x: Constants.RIGHT_PADDLE_X, y: fingerY },
-            useNativeDriver: false,
-          }).start();
-        }
+        if (fingerY < Constants.WALL_HEIGHT) fingerY = Constants.WALL_HEIGHT;
+        else if (fingerY > Constants.MAX_Y) fingerY = Constants.MAX_Y;
+        Animated.spring(this.leftPaddlePosition, {
+          toValue: { x: Constants.LEFT_PADDLE_X, y: fingerY },
+          useNativeDriver: false,
+        }).start();
       },
     });
     this.state = {
@@ -196,7 +179,7 @@ class Pong extends Component {
               collision[1],
               ball.velocity.x + Math.random() / 10,
               -ball.velocity.y
-            ); // Maintain horizontal movement and flip vertical movement
+            );
           }
         }
       }
@@ -344,19 +327,11 @@ class Pong extends Component {
   };
 
   render() {
-    const startText = "Press to start";
-    let startScreen = null;
+    // startButton does not work on Android devices (although it works on an Android simulator), so it is skipped
     if (Platform.OS === "android" && !this.state.running) {
       this.start();
-    } else if (Platform.OS === "ios" && !this.state.running) {
-      startScreen = [
-        <TouchableOpacity onPress={this.start} style={styles.startButton}>
-          <View style={styles.start}>
-            <Text style={styles.startText}>{startText}</Text>
-          </View>
-        </TouchableOpacity>,
-      ];
     }
+    const startText = "Press to start";
     return (
       <View style={styles.container} {...this.panResponder.panHandlers}>
         <GameEngine
@@ -366,14 +341,20 @@ class Pong extends Component {
           }}
           running={this.state.running}
           style={styles.game}
-          systems={[Physics(this.physicsProps)]}
+          systems={[Physics(this.leftPaddlePosition)]}
         ></GameEngine>
         <View style={styles.scoreBoard}>
           <Text style={styles.score}>
             {this.state.p1score} - {this.state.p2score}
           </Text>
         </View>
-        {startScreen}
+        {Platform.OS === "ios" && !this.state.running && (
+          <TouchableOpacity onPress={this.start} style={styles.startButton}>
+            <View style={styles.start}>
+              <Text style={styles.startText}>{startText}</Text>
+            </View>
+          </TouchableOpacity>
+        )}
       </View>
     );
   }
