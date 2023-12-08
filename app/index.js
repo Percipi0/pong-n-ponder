@@ -21,6 +21,7 @@ import * as Updates from "expo-updates";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { philosophers } from "../utils/philosophers.js";
+import TitlePong from "../utils/titlePong.js";
 
 let width = Dimensions.get("window").width;
 let height = Dimensions.get("window").height;
@@ -209,6 +210,9 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <View style={styles.pongGame}>
+        <TitlePong />
+      </View>
       <Stack.Screen options={{ header: () => null }} />
       {room === null ? (
         <KeyboardAvoidingView
@@ -217,8 +221,8 @@ export default function App() {
           style={styles.joinRoomContainer}
         >
           <View style={styles.titleContainer}>
-            <Text style={styles.titlePong}>Pong</Text>
-            <Text style={styles.titlePonder}>Ponder</Text>
+            <Text style={styles.pongText}>Pong</Text>
+            <Text style={styles.ponderText}>Ponder</Text>
           </View>
           <Text style={styles.joinRoomPrompt}>Enter a moniker:</Text>
           <TextInput
@@ -544,7 +548,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: -height / 2.8,
   },
-  titlePong: {
+  pongText: {
     marginLeft: -10,
     fontSize: width / 8,
     textAlign: "center",
@@ -552,12 +556,19 @@ const styles = StyleSheet.create({
     fontFamily: Themes.fonts.primary,
     fontWeight: "bold",
   },
-  titlePonder: {
+  ponderText: {
     marginTop: height / 10,
     fontSize: width / 8,
     textAlign: "center",
     color: Themes.colors.VSGreen,
     fontFamily: Themes.fonts.primary,
     fontWeight: "bold",
+  },
+  pongGame: {
+    position: "absolute",
+    resizeMode: "contain",
+    justifyContent: "center",
+    height: height,
+    width: width,
   },
 });

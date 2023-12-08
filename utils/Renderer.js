@@ -1,10 +1,13 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
+import { fonts } from "../assets/Themes/fonts";
+import { colors } from "../assets/Themes/colors";
 
 export default class Renderer extends Component {
   render() {
     const width = this.props.dimensions[0];
     const height = this.props.dimensions[1];
+    const text = this.props.text;
 
     return (
       <View
@@ -16,7 +19,21 @@ export default class Renderer extends Component {
           height: height,
           backgroundColor: this.props.color,
         }}
-      />
+      >
+        <Text
+          numberOfLines={1}
+          adjustsFontSizeToFit={true}
+          style={{
+            color: colors.background,
+            fontFamily: fonts.primary,
+            fontSize: 25,
+            textAlign: "center",
+            fontWeight: "bold",
+          }}
+        >
+          {text}
+        </Text>
+      </View>
     );
   }
 }

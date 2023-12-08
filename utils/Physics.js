@@ -11,7 +11,6 @@ const Physics =
     let ball = entities.ball.body;
     let yMin = rightPaddle.position.y;
     let yMax = rightPaddle.position.y;
-    console.log(difficulty);
 
     if (ball.position.y <= rightPaddle.position.y) {
       if (Math.random() < 0.1 * difficulty) {

@@ -3,11 +3,9 @@ import {
   StyleSheet,
   Text,
   View,
-  StatusBar,
   TouchableOpacity,
   PanResponder,
   Animated,
-  Dimensions,
   Pressable,
   Platform,
 } from "react-native";
@@ -21,7 +19,7 @@ import { colors } from "../assets/Themes/colors.js";
 import { Stack } from "expo-router/stack";
 import { useRouter } from "expo-router";
 import { useLocalSearchParams } from "expo-router";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { bruhContext } from "./_layout.js";
 import { useIsFocused } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
