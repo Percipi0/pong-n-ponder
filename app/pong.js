@@ -34,13 +34,6 @@ class Pong extends Component {
     this.paddleColor2 = props.color2;
     this.difficulty = props.difficulty;
 
-    this.state = {
-      running: Platform.OS === "android" ? true : false,
-      p1score: 0,
-      p2score: 0,
-      ballSpeed: Constants.NORMAL_BALL_SPEED,
-    };
-
     this.gameEngine = null;
     this.entities = this.setupWorld();
     this.leftPaddlePosition = new Animated.ValueXY({
@@ -61,6 +54,13 @@ class Pong extends Component {
         }).start();
       },
     });
+
+    this.state = {
+      running: Platform.OS === "android" ? true : false,
+      p1score: 0,
+      p2score: 0,
+      ballSpeed: Constants.NORMAL_BALL_SPEED,
+    };
   }
 
   /**
@@ -132,10 +132,11 @@ class Pong extends Component {
       ball,
     ]);
 
-    // startButton does not work on Android devices (although it works on an Android simulator), so it is skipped
-    if (Platform.OS === "android") {
-      this.bounceBall(leftPaddle, ball, 1, 1, Constants.NORMAL_BALL_SPEED / 2);
-    }
+    Matter.Body.setVelocity(ball, {
+      x: 1,
+      y: 1,
+    });
+    Matter.Body.setSpeed(ball, titleConstants.NORMAL_BALL_SPEED / 2);
 
     /**
      * When two objects collide,

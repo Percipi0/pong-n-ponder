@@ -25,8 +25,12 @@ export default function Game() {
       <Stack.Screen options={{ header: () => null }} />
 
       <View style={styles.paddle1Info}>
-        <Text style={styles.innerInfo}>Paddle 1 Hue:</Text>
-        <Text style={styles.innerInfo}>{paddleColor1}</Text>
+        <Text style={styles.innerInfo} numberOfLines={2} adjustsFontSizeToFit>
+          Paddle 1 Hue:
+        </Text>
+        <Text style={styles.innerInfo} adjustsFontSizeToFit>
+          {paddleColor1}
+        </Text>
       </View>
       <ColorPicker
         color={paddleColor1}
@@ -39,8 +43,12 @@ export default function Game() {
       />
 
       <View style={styles.paddle2Info}>
-        <Text style={styles.innerInfo}>Paddle 2 Hue:</Text>
-        <Text style={styles.innerInfo}>{paddleColor2}</Text>
+        <Text style={styles.innerInfo} numberOfLines={2} adjustsFontSizeToFit>
+          Paddle 2 Hue:
+        </Text>
+        <Text style={styles.innerInfo} adjustsFontSizeToFit>
+          {paddleColor2}
+        </Text>
       </View>
       <ColorPicker
         color={paddleColor2}
@@ -53,8 +61,12 @@ export default function Game() {
       />
 
       <View style={styles.difficultyInfo}>
-        <Text style={styles.innerInfo}>Pong AI Difficulty:</Text>
-        <Text style={styles.innerInfo}>{difficulty}</Text>
+        <Text style={styles.innerInfo} numberOfLines={2} adjustsFontSizeToFit>
+          Pong AI Difficulty:
+        </Text>
+        <Text style={styles.innerInfo} adjustsFontSizeToFit>
+          {difficulty}
+        </Text>
       </View>
       <View style={styles.difficultySlider}>
         <Slider
@@ -113,6 +125,7 @@ const styles = StyleSheet.create({
     fontFamily: Themes.fonts.primary,
     fontWeight: "bold",
     marginBottom: 12,
+    fontSize: 15,
   },
   difficultySlider: {
     position: "absolute",
