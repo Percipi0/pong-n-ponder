@@ -210,9 +210,6 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.pongGame}>
-        <TitlePong />
-      </View>
       <Stack.Screen options={{ header: () => null }} />
       {room === null ? (
         <KeyboardAvoidingView
@@ -221,6 +218,9 @@ export default function App() {
           style={styles.joinRoomContainer}
         >
           <View style={styles.titleContainer}>
+            <View style={styles.pongGame}>
+              <TitlePong />
+            </View>
             <Text style={styles.pongText}>Pong</Text>
             <Text style={styles.ponderText}>Ponder</Text>
           </View>

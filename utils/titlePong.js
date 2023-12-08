@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Platform } from "react-native";
 import { GameEngine } from "react-native-game-engine";
 import Matter from "matter-js";
 import titlePhysics from "../utils/titlePhysics";
 import Renderer from "../utils/Renderer";
 import titleConstants from "./titleConstants.js";
-
 import { colors } from "../assets/Themes/colors.js";
 import { Stack } from "expo-router/stack";
 import { useRouter } from "expo-router";
@@ -108,7 +107,11 @@ class TitlePong extends Component {
             this.bounceBall(collision[1], -1, ball.velocity.y); // Bounce left
           } else {
             // ball hit ceiling/floor
-            this.bounceBall(collision[1], ball.velocity.x, -ball.velocity.y);
+            this.bounceBall(
+              collision[1],
+              Platform.OS === "ios" ? ball.velocity.x : ball.velocity.x / 2.5,
+              Platform.OS === "ios" ? -ball.velocity.y : -ball.velocity.y / 2.5
+            );
           }
         }
       }

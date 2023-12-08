@@ -28,5 +28,5 @@ export default titleConstants = {
   AI_SPEED: 15,
 
   ROOF_HEIGHT: 150,
-  FLOOR_HEIGHT: 400,
+  FLOOR_HEIGHT: 600,
 };
