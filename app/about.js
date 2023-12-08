@@ -9,7 +9,7 @@ export default function about() {
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ header: () => null }} />
-      <Text style={styles.header}>Regarding Pong n' Ponder</Text>
+      <Text style={styles.header}>Regarding Pong 'n Ponder</Text>
       <View style={styles.textWrapper}>
         <Text style={styles.about}>
           {"  "}
@@ -29,7 +29,7 @@ export default function about() {
           unstoppable force of innovation has marched on into the future, and
           has brought unto humanity something truly brilliant - a perfect fusion
           of rumination and recreation! The marvelous{" "}
-          <Text style={styles.span3}>Pong n' Ponder</Text> has burst onto the
+          <Text style={styles.span3}>Pong 'n Ponder</Text> has burst onto the
           global scene, and stands as the most sophisticated (and least
           pretentious) of platforms for the facilitation of thought and play.
         </Text>
@@ -40,7 +40,7 @@ export default function about() {
           Pondering? As we contemplated this very question, we grew tired of
           twiddling our thumbs, waiting for this most extraordinary of ideas to
           be realized; thus we went to work, toiling away at our computers until
-          Pong n' Ponder was well and truly alive. Just as Atlas held up the
+          Pong 'n Ponder was well and truly alive. Just as Atlas held up the
           heavens, so too did we bear a tremendous burden for the benefit of all
           humanity. And now, we wish to share it with the world, completely free
           of charge, and available on iOS and Android devices everywhere.
