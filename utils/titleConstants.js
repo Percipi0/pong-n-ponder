@@ -4,7 +4,7 @@ import { Dimensions } from "react-native";
 const screenWidth = Dimensions.get("screen").width;
 const screenHeight = Dimensions.get("screen").height;
 const wallHeight = screenHeight / 5;
-const wallPosition = screenHeight / 3;
+const wallPosition = screenHeight / 3.75;
 const paddleHeight = 100;
 const divisor = 4;
 
@@ -27,5 +27,5 @@ export default titleConstants = {
   NORMAL_BALL_SPEED: 1.5,
 
   ROOF_HEIGHT: wallPosition,
-  FLOOR_HEIGHT: wallPosition * 2,
+  FLOOR_HEIGHT: wallPosition * 2.25,
 };
