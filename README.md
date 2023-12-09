@@ -6,16 +6,16 @@ By: [Logan Schreier](https://github.com/Percipi0) and [Alexander Worley](https:/
 Final Project for CS 147L Autumn 2023
 
 ## Table of Contents
-* [Description](https://github.com/Percipi0/pong-n-ponder#description)
-* [Getting Started](https://github.com/Percipi0/pong-n-ponder#getting-started)
-  * [Prerequisites](https://github.com/Percipi0/pong-n-ponder#prerequisites)
-  * [Installing](https://github.com/Percipi0/pong-n-ponder#installing)
-* [Usage](https://github.com/Percipi0/pong-n-ponder#usage)
-  * [Synopsis](https://github.com/Percipi0/pong-n-ponder#synopsis)
-  * [Ponder](https://github.com/Percipi0/pong-n-ponder#ponder)
-  * [Boutique](https://github.com/Percipi0/pong-n-ponder#boutique)
-  * [Chat Room](https://github.com/Percipi0/pong-n-ponder#chat-room)
-  * [Pong](https://github.com/Percipi0/pong-n-ponder#pong)
+* [Description](#description)
+* [Getting Started](#getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Installing](#installing)
+* [Usage](#usage)
+  * [Synopsis](#synopsis)
+  * [Ponder](#ponder)
+  * [Boutique](#boutique)
+  * [Chat Room](#chat-room)
+  * [Pong](#pong)
 
 ## Description
 **Philosophers** are tortured souls.The
@@ -60,12 +60,12 @@ Upon download:
 4. Alternatively, press <code>i</code> to lauch the project on an iOS Simulator or <code>a</code> to launch the project on an Android Simulator.
 
 ## Usage
-Upon app launch, philosophers will be met with a title screen on the [Ponder](https://github.com/Percipi0/pong-n-ponder#ponder) tab.
+Upon app launch, philosophers will be met with a title screen on the [Ponder](#ponder) tab.
 
 At the bottom of the screen, philosophers will find the following tabs:
-* [Synopsis](https://github.com/Percipi0/pong-n-ponder#synopsis)
-* [Ponder](https://github.com/Percipi0/pong-n-ponder#ponder)
-* [Boutique](https://github.com/Percipi0/pong-n-ponder#boutique)
+* [Synopsis](#synopsis)
+* [Ponder](#ponder)
+* [Boutique](#boutique)
 
 ### Synopsis
 Here, philosophers will find a synopsis detailing the purpose of this app.
@@ -77,12 +77,12 @@ Upon entering both, philosophers will join the room they entered and be introduc
 Philosophers will be unable to join a room if the moniker field is blank, the room ID field is blank,
 another philosopher in the entered room is already using the moniker they entered,
 or the room ID they entered already has two philosophers in it.
-  * Note: this requires a **Pong 'n Ponder Server** to be running on the same network. See [Prerequisites](https://github.com/Percipi0/pong-n-ponder#prerequisites) for details.
+  * Note: this requires a **Pong 'n Ponder Server** to be running on the same network. See [Prerequisites](#prerequisites) for details.
 
-Following this, philosophers will be sent to a [Chat Room](https://github.com/Percipi0/pong-n-ponder#chat-room).
+Following this, philosophers will be sent to a [Chat Room](#chat-room).
 
 ### Boutique
-Here, philosophers will be able to adjust the following settings for when they play [Pong](https://github.com/Percipi0/pong-n-ponder#pong):
+Here, philosophers will be able to adjust the following settings for when they play [Pong](#pong):
 * The hue of their paddle
 * The hue of the AI's paddle
 * The difficulty level of the Pong AI.
@@ -93,21 +93,21 @@ and can discuss the question with another philosopher if they are in the same ro
 
 An announcement will automatically appear in the chat when any of the following occur:
 * A philosopher joins the chat room
-* A philosopher takes a break and begins a game of [Pong](https://github.com/Percipi0/pong-n-ponder#pong).
-* A philosopher returns to the chat room after their [Pong](https://github.com/Percipi0/pong-n-ponder#pong) break.
+* A philosopher takes a break and begins a game of [Pong](#pong).
+* A philosopher returns to the chat room after their [Pong](#pong) break.
 
-In the top left, a return button will return philosophers to the [Ponder](https://github.com/Percipi0/pong-n-ponder#ponder) tab.
+In the top left, a return button will return philosophers to the [Ponder](#ponder) tab.
 
 In the top right, an information button will display the ID of the current room along with the monikers of each philosopher.
 
-In the bottom left, a Pong button will allow philosophers to take a break and play a game of [Pong](https://github.com/Percipi0/pong-n-ponder#pong).
+In the bottom left, a Pong button will allow philosophers to take a break and play a game of [Pong](#pong).
 
 ### Pong
 Here, philosophers can take a break from philosophical discussion and play a game of Pong.
 
 Using their finger, they can control the position of the paddle on the left while an AI controls the paddle on the right.
 
-The hue of their paddle, the hue of the AI's paddle, and the difficulty level of the AI can be adjusted in the [Boutique](https://github.com/Percipi0/pong-n-ponder#boutique).
+The hue of their paddle, the hue of the AI's paddle, and the difficulty level of the AI can be adjusted in the [Boutique](#boutique).
 
 A score board is displayed at the top of the page, and a return button in the top left will
-return philosophers to their [Chat Room](https://github.com/Percipi0/pong-n-ponder#chat-room).
+return philosophers to their [Chat Room](#chat-room).
