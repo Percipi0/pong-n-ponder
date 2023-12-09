@@ -77,14 +77,14 @@ class Pong extends Component {
       Constants.MAX_HEIGHT,
       Constants.MAX_WIDTH,
       Constants.WALL_HEIGHT,
-      { isStatic: true }
+      { label: "floor", isStatic: true }
     );
     let ceiling = Matter.Bodies.rectangle(
       Constants.MAX_WIDTH / 2,
       25,
       Constants.MAX_WIDTH,
       Constants.WALL_HEIGHT,
-      { isStatic: true }
+      { label: "ceiling", isStatic: true }
     );
     let leftPaddle = Matter.Bodies.rectangle(
       Constants.LEFT_PADDLE_X,
@@ -178,8 +178,21 @@ class Pong extends Component {
           } else if (collision[0].label === "rightGoal") {
             this.setState({ p1score: this.state.p1score + 1 });
             this.resetBall(false, collision[0], collision[1]); // Reset ball & bounce left
+          } else if (collision[0].label === "floor") {
+            this.bounceBall(
+              collision[0],
+              collision[1],
+              ball.velocity.x + Math.random() / 10,
+              -1
+            );
+          } else if (collision[0].label === "ceiling") {
+            this.bounceBall(
+              collision[0],
+              collision[1],
+              ball.velocity.x + Math.random() / 10,
+              1
+            );
           } else {
-            // ball hit ceiling/floor
             this.bounceBall(
               collision[0],
               collision[1],
