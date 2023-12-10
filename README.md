@@ -3,7 +3,7 @@ The most sophisticated (and least pretentious) of platforms for the facilitation
 
 By: [Logan Schreier](https://github.com/Percipi0) and [Alexander Worley](https://github.com/Alexander-Worley)
 
-Final Project for CS 147L Autumn 2023
+Final Project for Stanford University's CS 147L Autumn 2023
 
 ## Table of Contents
 * [Description](#description)
@@ -16,6 +16,7 @@ Final Project for CS 147L Autumn 2023
   * [Boutique](#boutique)
   * [Chat Room](#chat-room)
   * [Pong](#pong)
+* [Demonstration Video](#demonstration-video)
 
 ## Description
 **Philosophers** are tortured souls.The
@@ -121,3 +122,6 @@ The hue of their paddle, the hue of the AI's paddle, and the difficulty level of
 
 A score board is displayed at the top of the page, and a return button in the top left will
 return philosophers to their [Chat Room](#chat-room).
+
+## Demonstration Video
+[<img src="https://img.youtube.com/vi/fIQEBOnLAqQ/hqdefault.jpg"/>](https://www.youtube.com/embed/fIQEBOnLAqQ)
