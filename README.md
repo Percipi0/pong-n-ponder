@@ -68,9 +68,13 @@ At the bottom of the screen, philosophers will find the following tabs:
 * [Boutique](#boutique)
 
 ### Synopsis
+<img src="https://github.com/Percipi0/pong-n-ponder/blob/main/screenshots/Synopsis.png" width=20%>
+
 Here, philosophers will find a synopsis detailing the purpose of this app.
 
 ### Ponder
+<img src="https://github.com/Percipi0/pong-n-ponder/blob/main/screenshots/Ponder.png" width=20%> <img src="https://github.com/Percipi0/pong-n-ponder/blob/main/screenshots/Particulars.png" width=20%>
+
 Here, philosophers are able to enter a moniker for themselves along with a room ID.
 A random monikor pulled from a list of famous philosophers can be assigned via the dice button.
 Upon entering both, philosophers will join the room they entered and be introduced as their moniker.
@@ -82,12 +86,16 @@ or the room ID they entered already has two philosophers in it.
 Following this, philosophers will be sent to a [Chat Room](#chat-room).
 
 ### Boutique
+<img src="https://github.com/Percipi0/pong-n-ponder/blob/main/screenshots/Boutique.png" width=20%>
+
 Here, philosophers will be able to adjust the following settings for when they play [Pong](#pong):
 * The hue of their paddle
 * The hue of the AI's paddle
 * The difficulty level of the Pong AI.
 
 ### Chat Room
+<img src="https://github.com/Percipi0/pong-n-ponder/blob/main/screenshots/Chat-Room.png" width=20%>
+
 Here, philosophers will be prompted with a philosophical question chosen from a pool of questions
 and can discuss the question with another philosopher if they are in the same room.
 
@@ -103,6 +111,8 @@ In the top right, an information button will display the ID of the current room 
 In the bottom left, a Pong button will allow philosophers to take a break and play a game of [Pong](#pong).
 
 ### Pong
+<img src="https://github.com/Percipi0/pong-n-ponder/blob/main/screenshots/Pong.png" width=20%>
+
 Here, philosophers can take a break from philosophical discussion and play a game of Pong.
 
 Using their finger, they can control the position of the paddle on the left while an AI controls the paddle on the right.
