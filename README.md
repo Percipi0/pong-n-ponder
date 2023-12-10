@@ -73,7 +73,7 @@ At the bottom of the screen, philosophers will find the following tabs:
 Here, philosophers will find a synopsis detailing the purpose of this app.
 
 ### Ponder
-<img src="https://github.com/Percipi0/pong-n-ponder/blob/main/screenshots/Ponder.png" width=20%> <img src="https://github.com/Percipi0/pong-n-ponder/blob/main/screenshots/Particulars.png" width=20%>
+<img src="https://github.com/Percipi0/pong-n-ponder/blob/main/screenshots/Ponder.png" width=20%>
 
 Here, philosophers are able to enter a moniker for themselves along with a room ID.
 A random monikor pulled from a list of famous philosophers can be assigned via the dice button.
@@ -94,7 +94,7 @@ Here, philosophers will be able to adjust the following settings for when they p
 * The difficulty level of the Pong AI.
 
 ### Chat Room
-<img src="https://github.com/Percipi0/pong-n-ponder/blob/main/screenshots/Chat-Room.png" width=20%>
+<img src="https://github.com/Percipi0/pong-n-ponder/blob/main/screenshots/Chat-Room.png" width=20%> <img src="https://github.com/Percipi0/pong-n-ponder/blob/main/screenshots/Particulars.png" width=20%>
 
 Here, philosophers will be prompted with a philosophical question chosen from a pool of questions
 and can discuss the question with another philosopher if they are in the same room.
