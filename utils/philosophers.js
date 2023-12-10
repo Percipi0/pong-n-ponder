@@ -32,4 +32,7 @@ export const philosophers = [
   "de Ávila",
   "Hypatia",
   "Lovelace",
+  "du Bois",
+  "Hegel",
+  "Engels",
 ];
