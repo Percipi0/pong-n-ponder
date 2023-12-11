@@ -21,7 +21,8 @@ Final Project for Stanford University's CS 147L Autumn 2023
 ## Description
 **Philosophers** are tortured souls.The
 intense contemplation required to answer life's most profound
-philosophical questions, such as "what is a chair?" or "is a hotdog a sandwich?" can
+philosophical questions, such as
+_"what is a chair?"_ or _"is a hotdog a sandwich?" can
 quickly drive even the shrewdest of philosophers into utter madness.
 Nor are philosophers known to be particularly stable to begin with. As
 the French egghead **René Descartes** famously said,
@@ -49,7 +50,9 @@ Rejoice, citizens! Don the mantle of philosopher, and pick up
           
 ## Getting Started
 ### Prerequisites
-* A **Pong 'n Ponder Server** (found [TODO](url)) must be running on the same network.
+* A **Pong 'n Ponder Server** (found [here](https://github.com/Percipi0/pong-n-ponder-server)) must be running on the same network.
+* Within **/app/index.js**, replace the URL on line 37 with the IPv4 Address of the machine on your network that is running the Pong 'n Ponder Server.
+  * <code>const URL = "http://XX.XX.XX.XXX:1930"</code>
 * **Expo Go** (found [here](https://expo.dev/tools#client)) is required to run this project.
 
 ### Installing
