@@ -21,8 +21,7 @@ Final Project for Stanford University's CS 147L Autumn 2023
 ## Description
 **Philosophers** are tortured souls.The
 intense contemplation required to answer life's most profound
-philosophical questions, such as
-_"what is a chair?"_ or _"is a hotdog a sandwich?" can
+philosophical questions, such as "what is a chair?" or "is a hotdog a sandwich?" can
 quickly drive even the shrewdest of philosophers into utter madness.
 Nor are philosophers known to be particularly stable to begin with. As
 the French egghead **René Descartes** famously said,
