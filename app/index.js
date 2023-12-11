@@ -27,8 +27,11 @@ let width = Dimensions.get("window").width;
 let height = Dimensions.get("window").height;
 
 /**
- * Change the IP Address below to  your
- * Wireless LAN adapter Wi-Fi IPv4 Address.
+ * Change the IP Address below to the
+ * Wireless LAN adapter Wi-Fi IPv4 Address
+ * of the machine on your network that is
+ * running the Pong 'n Ponder Server.
+ *
  * const URL = "http://XX.XX.XX.XXX:1930";
  */
 const URL = "http://10.31.11.154:1930";
