@@ -26,7 +26,13 @@ import TitlePong from "../utils/titlePong.js";
 let width = Dimensions.get("window").width;
 let height = Dimensions.get("window").height;
 
+/**
+ * Change the IP Address below to  your
+ * Wireless LAN adapter Wi-Fi IPv4 Address.
+ * const URL = "http://XX.XX.XX.XXX:1930";
+ */
 const URL = "http://10.31.11.154:1930";
+
 const socket = io(URL);
 
 const keyboardVerticalOffset = Platform.OS === "ios" ? 50 : -height / 3.78;
