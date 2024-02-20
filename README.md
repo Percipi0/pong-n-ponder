@@ -19,7 +19,7 @@ Final Project for Stanford University's CS 147L Autumn 2023
 * [Demonstration Video](#demonstration-video)
 
 ## Description
-**Philosophers** are tortured souls.The
+**Philosophers** are tortured souls. The
 intense contemplation required to answer life's most profound
 philosophical questions, such as
 "what is a chair?" or "is a hotdog a sandwich?" can
