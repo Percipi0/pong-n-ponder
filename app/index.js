@@ -75,7 +75,6 @@ export default function App() {
     };
   }, []);
 
-  // I am logan and I am a huge nerd
   //room update event handler
   useEffect(() => {
     socket.on("roomUpdate", (msg) => {
